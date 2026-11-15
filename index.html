@@ -3,447 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Discipline - Real Alarm App</title>
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="manifest" href="data:application/json,[STRIPPED]
+<title>My Discipline</title>
 <style>
 *{box-sizing:border-box;font-family:'Segoe UI',Arial}
-:root{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--border:#334155;--input:#0f172a}
-body.light{--bg:#f1f5f9;--card:#fff;--text:#0f172a;--border:#e2e8f0;--input:#f8fafc}
-body{margin:0;background:var(--bg);padding:12px;padding-bottom:40px;color:var(--text)}
-.top{background:linear-gradient(135deg,#1e40af,#2563eb,#0ea5e9);padding:22px;border-radius:24px;text-align:center}
-.top h1{margin:0;font-size:26px;color:white} .top p{color:#dbeafe;margin:5px}
-.card{background:var(--card);padding:20px;border-radius:20px;margin:14px 0;border:1px solid var(--border)}
-h2{margin:0 0 12px;font-size:19px;color:#38bdf8} h3{margin:12px 0 8px;font-size:16px}
-button{background:#2563eb;color:white;border:0;padding:11px 18px;border-radius:12px;cursor:pointer;font-weight:700;margin:3px}
-button.small{background:#334155;padding:8px 12px;font-size:13px} button.green{background:#22c55e} button.red{background:#ef4444} button.orange{background:#f59e0b}
-input,select,textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;margin:6px 0;font-size:15px;background:var(--input);color:var(--text);outline:none}
-li{list-style:none;margin:8px 0;font-size:16px;display:flex;align-items:center;gap:10px;background:var(--input);padding:12px;border-radius:12px}
-li input{width:20px;height:20px;accent-color:#2563eb} li span{flex:1}
-.flex{display:flex;gap:8px;flex-wrap:wrap} .flex button{flex:1;min-width:80px}
-.pill{background:var(--input);padding:9px 12px;border-radius:12px;font-size:13px;margin:4px 2px;display:inline-block;border:1px solid var(--border)}
-.bar{height:14px;background:#334155;border-radius:20px;overflow:hidden} .fill{height:100%;background:linear-gradient(90deg,#2563eb,#0ea5e9,#22c55e);width:0%;transition:.5s}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px} .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.stat{background:var(--input);padding:14px;border-radius:14px;text-align:center;border:1px solid var(--border)} .stat b{font-size:22px;color:#38bdf8;display:block} .stat small{color:#94a3b8}
+body{margin:0;background:#0f172a;padding:12px;padding-bottom:90px;color:#e2e8f0}
+.top{background:linear-gradient(135deg,#1e40af,#2563eb,#0ea5e9);padding:20px;border-radius:20px;text-align:center}
+.top h1{margin:0;font-size:26px;color:white} .top p{color:#dbeafe;margin:4px}
+.card{background:#1e293b;padding:16px;border-radius:18px;margin:12px 0;border:1px solid #334155}
+h2{margin:0 0 10px;font-size:18px;color:#38bdf8} h3{margin:10px 0 6px;font-size:15px}
+button{background:#2563eb;color:white;border:0;padding:10px 16px;border-radius:11px;cursor:pointer;font-weight:700;margin:3px}
+button.small{background:#334155;padding:7px 11px;font-size:13px} button.green{background:#22c55e} button.red{background:#ef4444}
+input,select,textarea{width:100%;padding:11px;border:1px solid #334155;border-radius:11px;margin:5px 0;font-size:15px;background:#0f172a;color:white;outline:none}
+li{list-style:none;margin:7px 0;font-size:15px;display:flex;align-items:center;gap:8px;background:#0f172a;padding:10px;border-radius:11px}
+li input{width:19px;height:19px;accent-color:#2563eb} li span{flex:1}
+.flex{display:flex;gap:7px;flex-wrap:wrap} .flex button{flex:1;min-width:75px}
+.pill{background:#0f172a;padding:8px 11px;border-radius:11px;font-size:13px;margin:3px 2px;display:inline-block;border:1px solid #334155}
+.bar{height:12px;background:#334155;border-radius:20px;overflow:hidden} .fill{height:100%;background:linear-gradient(90deg,#2563eb,#0ea5e9,#22c55e);width:0%;transition:.5s}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.stat{background:#0f172a;padding:12px;border-radius:12px;text-align:center;border:1px solid #334155} .stat b{font-size:20px;color:#38bdf8;display:block} .stat small{color:#94a3b8}
 .done{opacity:.5;text-decoration:line-through} .badge{background:#22c55e;color:white;padding:4px 10px;border-radius:20px;font-size:12px}
-.timer-big{font-size:48px;font-weight:800;text-align:center;color:#38bdf8;margin:10px 0}
-.quote{background:var(--input);border-left:4px solid #2563eb;padding:12px;border-radius:10px;font-style:italic;color:#94a3b8;margin:10px 0}
-.popup{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
-.popup-box{background:#1e293b;border:2px solid #38bdf8;border-radius:24px;padding:28px;text-align:center;max-width:380px;width:100%;animation:pop .35s;color:white}
-@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
-.profile-pic{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid white;background:#334155}
-.tabs{display:flex;gap:6px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:99}
-.tabs button{flex:1;background:var(--card);color:var(--text);border:1px solid var(--border)}
-.tabs button.active{background:#2563eb;color:white}
+.timer-big{font-size:42px;font-weight:800;text-align:center;color:#38bdf8;margin:8px 0}
+.quote{background:#0f172a;border-left:4px solid #2563eb;padding:10px;border-radius:10px;font-style:italic;color:#cbd5e1;margin:8px 0}
+/* BOTTOM 4 BOXES - HAMESHA NAZAR AYENGE */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1e293b;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-top:2px solid #2563eb;z-index:100;padding:6px}
+.bottom-nav button{background:#0f172a;color:#94a3b8;font-size:11px;padding:10px 2px;margin:2px;border-radius:12px;line-height:1.2}
+.bottom-nav button.active{background:#2563eb;color:white}
 .section{display:none} .section.active{display:block}
-.alarm-big{font-size:60px;animation:bounce 1s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+/* POPUP */
+.popup{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
+.popup-box{background:#1e293b;border:2px solid #38bdf8;border-radius:22px;padding:26px;text-align:center;max-width:360px;width:100%;color:white;animation:pop .3s}
+@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+/* VIDEO WALI LOADING - NO DOTS */
+#loading{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.load-word{font-size:26px;font-weight:800;letter-spacing:2px;color:#111;line-height:1.15;text-align:left;width:300px}
+.load-word span{display:block;opacity:.25;transition:.5s}
+.load-word span b{font-size:32px;display:inline-block;width:32px}
+.load-word span.on{opacity:1;transform:scale(1.05)}
+.load-word span.on b{text-shadow:0 0 15px currentColor}
+#loadBig{font-size:34px;font-weight:900;letter-spacing:6px;color:#22c55e;text-shadow:0 0 20px #22c55e;margin-bottom:10px}
+#loadSub{color:#94a3b8;font-size:13px;letter-spacing:2px}
 </style>
 </head>
 <body>
-<div class="popup" id="celebratePopup"><div class="popup-box"><div style="font-size:36px" id="popupEmoji">🎉</div><h2 id="popupTitle">GREAT JOB!</h2><p id="popupMsg">You did it!</p><p id="popupPoints" style="color:#38bdf8;font-weight:800">+10 Points</p><button onclick="closeCelebrate()" style="background:#22c55e;font-size:18px;padding:14px 30px">Thanks! Keep Going 💪</button><br><button onclick="closeCelebrate()" class="small">Close</button></div></div>
-<div class="popup" id="motivatePopup"><div class="popup-box" style="border-color:#f59e0b"><div style="font-size:36px">💪</div><h2>You Can Do It!</h2><p id="motivateMsg">No pressure Champ.</p><button onclick="closeMotivate()" style="background:#2563eb">Okay, I Will Try 💪</button></div></div>
+<!-- VIDEO WALI LOADING -->
+<div id="loading">
+<div id="loadBig">DISCIPLINE</div>
+<div class="load-word" id="loadWords">
+<span data-c="#22c55e"><b>D</b>edication</span>
+<span data-c="#22c55e"><b>I</b>ntegrity</span>
+<span data-c="#facc15"><b>S</b>trength</span>
+<span data-c="#facc15"><b>C</b>onsistency</span>
+<span data-c="#facc15"><b>I</b>mprovement</span>
+<span data-c="#facc15"><b>P</b>ersistence</span>
+<span data-c="#facc15"><b>L</b>eadership</span>
+<span data-c="#facc15"><b>I</b>nspiration</span>
+<span data-c="#facc15"><b>N</b>oteworthiness</span>
+<span data-c="#facc15"><b>E</b>xcellence</span>
+</div>
+<div id="loadSub">LOADING YOUR DISCIPLINE...</div>
+</div>
+<div class="popup" id="celebratePopup"><div class="popup-box"><div style="font-size:34px" id="popupEmoji">🎉</div><h2 id="popupTitle">GREAT JOB!</h2><p id="popupMsg">You did it!</p><p id="popupPoints" style="color:#38bdf8;font-weight:800">+10 Points</p><button onclick="closeCelebrate()" style="background:#22c55e;font-size:17px;padding:13px 28px">Thanks! Keep Going 💪</button><br><button onclick="closeCelebrate()" class="small">Close</button></div></div>
+<div class="popup" id="motivatePopup"><div class="popup-box" style="border-color:#f59e0b"><div style="font-size:34px">💪</div><h2>You Can Do It!</h2><p id="motivateMsg">No pressure Champ.</p><button onclick="closeMotivate()" style="background:#2563eb">Okay, I Will Try 💪</button></div></div>
+<!-- TOP - NO LOGIN, SIRF NAAM -->
 <div class="top">
-<img id="profileImg" class="profile-pic" src="https://via.placeholder.com/90/2563eb/ffffff?text=👑" onclick="document.getElementById('photoInput').click()">
-<input type="file" id="photoInput" accept="image/*" style="display:none" onchange="uploadPhoto(event)">
-<p style="font-size:12px;color:white">Tap Photo To Change</p>
 <h1 id="userNameShow">Hey Champ 💪</h1>
 <p id="todayDate"></p>
 <p>🔥 Streak: <b id="streak">0</b> | 🏆 XP: <b id="points">0</b> | ⭐ Level: <b id="level">1</b> - <span id="levelText">Beginner</span></p>
-<p>Rank: <b id="rankShow">🥉 Bronze</b> | Next: <span id="nextRank">Silver - 150 XP</span></p>
-<div class="bar" style="background:rgba(255,255,255,.3)"><div class="fill" id="xpFill" style="background:white"></div></div>
 <input id="nameInput" placeholder="Enter your name..." style="background:white;color:black">
-<input id="ageInput" placeholder="Age e.g. 17" type="number" style="background:white;color:black">
-<input id="goalInput" placeholder="Your Big Goal e.g. Become Topper" style="background:white;color:black">
-<button onclick="saveName()">Save Profile</button>
-<div class="flex" style="margin-top:8px">
-<button onclick="toggleTheme()" style="background:white;color:#2563eb">🌙 / ☀️ Dark-Light</button>
-<button onclick="speakCoach()" style="background:#22c55e">🔊 Voice Coach</button>
-<button onclick="shareWhatsApp()" style="background:#25D366">📲 Share WhatsApp</button>
-</div>
-<div class="flex">
-<button onclick="exportData()" class="small" style="background:#22c55e">Export / Cloud Save</button>
-<button onclick="document.getElementById('importFile').click()" class="small">Import</button>
-<button onclick="installApp()" class="small" style="background:#8b5cf6">📱 Install App</button>
-<input type="file" id="importFile" style="display:none" onchange="importData(event)">
-</div>
-<p id="alarmLiveStatus" style="background:rgba(0,0,0,.3);padding:8px;border-radius:10px;font-size:13px">⏰ Alarm System: Checking...</p>
+<button onclick="saveName()" style="background:white;color:#2563eb">Save Name</button>
 </div>
 
-<div class="tabs">
-<button id="tab1" class="active" onclick="showSection(1)">🏠 Home</button>
-<button id="tab2" onclick="showSection(2)">💪 Gym + Study</button>
-<button id="tab3" onclick="showSection(3)">💰 Money + Habits</button>
-<button id="tab4" onclick="showSection(4)">📜 History + AI</button>
-</div>
-
+<!-- BOX 1 - HOME -->
 <div id="sec1" class="section active">
 <div class="card">
-<h2>🤖 AI Coach</h2>
-<div id="aiCoachBox" style="background:var(--input);padding:14px;border-radius:14px;border:1px solid var(--border)">Loading AI Coach...</div>
-<button onclick="askAI()">Ask AI Coach 💬</button>
-<button class="small" onclick="speakCoach()">🔊 Listen Voice</button>
-</div>
-<div class="card">
-<h2>📊 Today Dashboard</h2>
+<h2>📊 Today</h2>
 <div class="grid3">
 <div class="stat"><b id="statTask">0/0</b><small>Tasks</small></div>
 <div class="stat"><b id="statNamaz">0/5</b><small>Prayers</small></div>
 <div class="stat"><b id="statWater">0</b><small>Water</small></div>
 </div>
-<div class="grid3" style="margin-top:10px">
-<div class="stat"><b id="statStudy">0</b><small>Study Min</small></div>
-<div class="stat"><b id="statFocus">0</b><small>Focus Min</small></div>
-<div class="stat"><b id="statExpense">0</b><small>Expense</small></div>
-</div>
-<div style="margin-top:14px"><div class="bar"><div class="fill" id="fill"></div></div><p id="progressText" style="text-align:center;font-weight:700">0%</p></div>
-<div class="quote" id="dailyQuote"></div><button onclick="newQuote()">🔄 New Quote</button>
+<div style="margin-top:10px"><div class="bar"><div class="fill" id="fill"></div></div><p id="progressText" style="text-align:center;font-weight:700;margin:6px 0">0%</p></div>
+<div class="quote" id="dailyQuote"></div>
 </div>
 <div class="card">
-<h2>✅ Today Tasks</h2>
+<h2>✅ Tasks</h2>
 <ul id="todoList"></ul>
 <input id="newTask" placeholder="Add new task...">
-<select id="taskCat"><option>General</option><option>Study</option><option>Gym</option><option>Work</option><option>Personal</option><option>Family</option></select>
-<select id="taskPriority"><option>Normal</option><option>High 🔴</option><option>Low</option></select>
-<button onclick="addTask()">+ Add Task</button><button class="small" onclick="clearDoneTasks()">Clear Done</button>
+<button onclick="addTask()">+ Add Task</button>
 </div>
 <div class="card">
-<h2>🎯 Top 3 Goals + Tomorrow Plan</h2>
-<input id="goal1" placeholder="Goal 1 - Most Important" oninput="saveExtra()">
-<input id="goal2" placeholder="Goal 2" oninput="saveExtra()">
-<input id="goal3" placeholder="Goal 3" oninput="saveExtra()">
-<textarea id="tomorrowPlan" rows="2" placeholder="Tomorrow plan..." oninput="saveExtra()"></textarea>
-</div>
-<div class="card">
-<h2>🕌 Prayer Tracker</h2>
+<h2>🕌 Prayer</h2>
 <div class="flex" id="namaz"></div>
 <p><label><input type="checkbox" id="quranCheck" onchange="saveQuran()" style="width:auto"> Quran / Dua Done</label></p>
-<p><label><input type="checkbox" id="tahajjudCheck" onchange="saveExtra2()" style="width:auto"> Tahajjud</label></p>
-<input id="quranPages" placeholder="Quran pages?" type="number" oninput="saveExtra()">
 <p id="prayerMsg"></p>
 </div>
 <div class="card">
-<h2>💧 Water + Food + Sleep</h2>
-<p>Water: <b id="waterCount" style="font-size:22px;color:#38bdf8">0</b> / 8 - <span id="waterMsg">Drink more!</span></p>
-<button onclick="addWater()">+ 1 Glass 💧</button><button class="small" onclick="resetWater()">Reset</button>
-<select id="food" onchange="saveExtra()"><option>Not Tracked</option><option>Healthy - Home Food</option><option>Normal</option><option>Junk Food</option><option>Fasting</option></select>
-<input id="meals" placeholder="What did you eat?" oninput="saveExtra()">
-<input type="number" id="sleep" placeholder="Hours slept? e.g. 7" onchange="saveExtra()">
-<select id="sleepQuality" onchange="saveExtra()"><option>Good</option><option>Average</option><option>Bad</option><option>Very Good</option></select>
+<h2>🎯 Goals</h2>
+<input id="goal1" placeholder="Goal 1 - Most Important" oninput="saveExtra()">
+<input id="goal2" placeholder="Goal 2" oninput="saveExtra()">
+<input id="goal3" placeholder="Goal 3" oninput="saveExtra()">
 </div>
 </div>
+<!-- BOX 2 - GYM + STUDY -->
 <div id="sec2" class="section">
 <div class="card">
-<h2>💪 Gym Tracker - Full</h2>
-<select id="workout" onchange="saveExtra()"><option>No Workout</option><option>Walk 30 min</option><option>Gym - Chest</option><option>Gym - Back</option><option>Gym - Legs</option><option>Gym - Arms</option><option>Gym - Shoulder</option><option>Home Workout</option><option>Running</option></select>
+<h2>💪 Gym + Water + Sleep</h2>
+<p>Water: <b id="waterCount" style="font-size:20px;color:#38bdf8">0</b> / 8 - <span id="waterMsg">Drink more!</span></p>
+<button onclick="addWater()">+ 1 Glass 💧</button><button class="small" onclick="resetWater()">Reset</button>
+<select id="workout" onchange="saveExtra()"><option>No Workout</option><option>Walk 30 min</option><option>Gym - Chest</option><option>Gym - Back</option><option>Gym - Legs</option><option>Gym - Arms</option><option>Home Workout</option><option>Running</option></select>
 <input id="workoutMin" type="number" placeholder="Workout minutes" oninput="saveExtra()">
 <input id="weight" type="number" placeholder="Weight kg e.g. 65" oninput="saveExtra()">
+<input type="number" id="sleep" placeholder="Hours slept? e.g. 7" onchange="saveExtra()">
+<select id="food" onchange="saveExtra()"><option>Not Tracked</option><option>Healthy - Home Food</option><option>Normal</option><option>Junk Food</option><option>Fasting</option></select>
 <h3>🏋️ Gym Log</h3>
 <input id="gymExercise" placeholder="Exercise e.g. Bench Press">
 <input id="gymSets" type="number" placeholder="Sets e.g. 4">
 <input id="gymReps" type="number" placeholder="Reps e.g. 12">
-<input id="gymWeight" type="number" placeholder="Weight kg e.g. 40">
-<button onclick="addGymLog()">+ Add Gym Set</button>
+<button onclick="addGymLog()">+ Add Set</button>
 <div id="gymLogList"></div>
-<p>Total Gym: <b id="gymTotal">0</b> | This Week: <b id="gymWeek">0</b></p>
-<h3>📸 Body Progress</h3>
-<p>Before Weight: <input id="weightBefore" type="number" placeholder="e.g. 70" oninput="saveExtra()"></p>
-<p>Goal Weight: <input id="weightGoal" type="number" placeholder="e.g. 60" oninput="saveExtra()"></p>
-<p id="weightProgress"></p>
-<p>Plan: Mon-Chest | Tue-Back | Wed-Rest | Thu-Legs | Fri-Arms | Sat-Shoulder | Sun-Rest</p>
 </div>
 <div class="card">
-<h2>📚 Study + Timetable + Exam</h2>
+<h2>📚 Study + Focus</h2>
 <input type="number" id="studyMin" placeholder="Minutes studied?">
 <button onclick="saveStudy()">Save Study</button>
 <p id="studyShow"></p>
 <select id="studySubject" onchange="saveExtra()"><option>Math</option><option>English</option><option>Science</option><option>Computer</option><option>Islamiyat</option><option>Urdu</option><option>Other</option></select>
 <input id="studyTopic" placeholder="Topic?" oninput="saveExtra()">
-<h3>📅 Weekly Timetable</h3>
-<table><tr><th>Day</th><th>Subject</th></tr>
-<tr><td>Mon</td><td><input id="ttMon" placeholder="e.g. Math" oninput="saveExtra()"></td></tr>
-<tr><td>Tue</td><td><input id="ttTue" placeholder="..." oninput="saveExtra()"></td></tr>
-<tr><td>Wed</td><td><input id="ttWed" placeholder="..." oninput="saveExtra()"></td></tr>
-<tr><td>Thu</td><td><input id="ttThu" placeholder="..." oninput="saveExtra()"></td></tr>
-<tr><td>Fri</td><td><input id="ttFri" placeholder="..." oninput="saveExtra()"></td></tr>
-<tr><td>Sat</td><td><input id="ttSat" placeholder="..." oninput="saveExtra()"></td></tr>
-<tr><td>Sun</td><td><input id="ttSun" placeholder="..." oninput="saveExtra()"></td></tr></table>
-<h3>🎯 Exam Countdown</h3>
-<input id="examName" placeholder="Exam Name e.g. Board Exam" oninput="saveExtra()">
+<input id="examName" placeholder="Exam Name" oninput="saveExtra()">
 <input type="date" id="examDate" onchange="saveExtra();updateExam()">
-<p id="examCountdown" style="font-size:20px;font-weight:800;color:#f59e0b"></p>
-<textarea id="schoolNotes" rows="2" placeholder="Homework..." oninput="saveExtra()"></textarea>
+<p id="examCountdown" style="font-weight:800;color:#f59e0b"></p>
 <h3>⏱️ Focus Timer</h3>
 <div class="timer-big" id="focusTimer">25:00</div>
 <button onclick="startFocus()">▶ Start</button><button class="small" onclick="pauseFocus()">⏸ Pause</button><button class="small" onclick="resetFocus()">Reset</button>
-<p>Focus Sessions: <b id="focusSessions">0</b></p>
-</div>
-<div class="card">
-<h2>🧠 Mood + Journal</h2>
-<select id="mood" onchange="saveExtra()"><option>Happy 😊</option><option>Motivated 🔥</option><option>Normal</option><option>Tired 😴</option><option>Sad 😔</option><option>Angry 😡</option><option>Stressed</option><option>Confident 💪</option></select>
-<p>Energy 1-10:</p><input type="range" id="energy" min="1" max="10" value="5" oninput="saveExtra();document.getElementById('energyShow').innerText=this.value">
-<p>Energy: <b id="energyShow">5</b>/10</p>
-<p>Confidence 1-10:</p><input type="range" id="confidence" min="1" max="10" value="5" oninput="saveExtra();document.getElementById('confShow').innerText=this.value">
-<p>Confidence: <b id="confShow">5</b>/10</p>
-<textarea id="journal" rows="4" placeholder="How was your day?"></textarea>
-<button onclick="saveJournal()">Save Journal</button>
-<input id="grat1" placeholder="1. Thankful for..." oninput="saveExtra()">
-<input id="grat2" placeholder="2. ..." oninput="saveExtra()">
-<input id="grat3" placeholder="3. ..." oninput="saveExtra()">
+<p>Focus Sessions: <b id="focusSessions">0</b> | Focus Min: <b id="statFocus">0</b></p>
 </div>
 </div>
+<!-- BOX 3 - MONEY + HABITS -->
 <div id="sec3" class="section">
 <div class="card">
-<h2>🎮 Game - XP + Ranks + Daily Mission</h2>
-<p>Rank: <b id="gameRank">🥉 Bronze</b></p>
-<p>Mission: <b id="dailyMission">Do 5 Tasks + 1 Prayer + 8 Water = Bonus 50 XP</b></p>
-<button onclick="checkMission()">Check Mission - Claim Bonus 🎁</button>
-<p id="missionMsg"></p>
-<p>Ranks: 0=🥉 Bronze | 50=🥈 Silver | 150=🥇 Gold | 300=💎 Diamond | 500=👑 KING</p>
-<div class="bar"><div class="fill" id="rankFill"></div></div>
-</div>
-<div class="card">
-<h2>👥 Friends Leaderboard</h2>
-<input id="friendName" placeholder="Friend Name e.g. Ahmed">
-<input id="friendScore" type="number" placeholder="Friend Score">
-<button onclick="addFriend()">+ Add Friend</button>
-<div id="friendList"></div>
-<p id="leaderboardMsg"></p>
-<button class="small" onclick="challengeFriend()">⚔️ Challenge Friend</button>
-</div>
-<div class="card">
-<h2>💰 Money - Full + Saving</h2>
-<p>Pocket Money: <input id="pocketMoney" type="number" placeholder="e.g. 5000" oninput="saveExtra()"></p>
+<h2>💰 Money</h2>
 <input type="number" id="expenseAmt" placeholder="Amount e.g. 500">
 <input id="expenseFor" placeholder="For what? e.g. Food">
 <button onclick="addExpense()">+ Add Expense</button>
 <div id="expenseList"></div>
-<p>Today: <b id="totalExpense">0</b> | Month: <b id="monthExpense">0</b></p>
-<p>Saving Goal: <input type="number" id="savingGoal" placeholder="e.g. 2000" oninput="saveExtra()"></p>
-<p id="savingProgress"></p><div class="bar"><div class="fill" id="savingFill"></div></div>
-<p>Saved: <b id="moneySaved">0</b></p>
+<p>Today: <b id="totalExpense">0</b> | Month: <b id="monthExpense">0</b> | Saved: <b id="moneySaved">0</b></p>
+<input type="number" id="pocketMoney" placeholder="Pocket Money e.g. 5000" oninput="saveExtra()">
+<input type="number" id="savingGoal" placeholder="Saving Goal e.g. 2000" oninput="saveExtra()">
+<p id="savingProgress"></p>
 </div>
 <div class="card">
-<h2>🔁 Habits + Streak Calendar</h2>
-<p><b>Good Habits:</b></p><div class="flex" id="goodHabits"></div>
-<p><b>Bad Habits Avoided:</b></p><div id="badHabits"></div>
+<h2>🔁 Habits</h2>
+<p><b>Good:</b></p><div class="flex" id="goodHabits"></div>
+<p><b>Avoided:</b></p><div id="badHabits"></div>
 <p>Screen Time:</p><input type="number" id="screenTime" placeholder="Hours e.g. 3" oninput="saveExtra()">
 <input type="number" id="socialTime" placeholder="Social Media Hours" oninput="saveExtra()">
-<h3>🔥 Streak Calendar - 30 Days</h3>
-<div id="streakCalendar" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px"></div>
-<p id="streakInfo"></p>
 </div>
 <div class="card">
-<h2>❌ What NOT To Do</h2>
-<p style="line-height:2">❌ No Reels in morning<br>❌ No phone after 11 PM<br>❌ No junk food daily<br>❌ No comparing yourself<br>❌ No delaying work</p>
-<input id="myRule" placeholder="Your own rule..." oninput="saveExtra()">
+<h2>🧠 Mood + Journal</h2>
+<select id="mood" onchange="saveExtra()"><option>Happy 😊</option><option>Motivated 🔥</option><option>Normal</option><option>Tired 😴</option><option>Sad 😔</option><option>Angry 😡</option><option>Confident 💪</option></select>
+<p>Energy: <input type="range" id="energy" min="1" max="10" value="5" oninput="saveExtra();document.getElementById('energyShow').innerText=this.value"> <b id="energyShow">5</b>/10</p>
+<textarea id="journal" rows="3" placeholder="How was your day?"></textarea>
+<button onclick="saveJournal()">Save Journal</button>
+<input id="grat1" placeholder="1. Thankful for..." oninput="saveExtra()">
+</div>
+<div class="card">
+<h2>🎮 Game + Friends</h2>
+<p>Rank: <b id="gameRank">🥉 Bronze</b> | Next: <span id="nextRank">Silver - 150 XP</span></p>
+<div class="bar"><div class="fill" id="rankFill"></div></div>
+<button onclick="checkMission()">Check Daily Mission 🎁</button><p id="missionMsg"></p>
+<input id="friendName" placeholder="Friend Name">
+<input id="friendScore" type="number" placeholder="Friend Score">
+<button onclick="addFriend()">+ Add Friend</button>
+<div id="friendList"></div><p id="leaderboardMsg"></p>
+<button onclick="shareWhatsApp()" style="background:#25D366">📲 Share On WhatsApp</button>
 </div>
 </div>
+<!-- BOX 4 - HISTORY + ALARM -->
 <div id="sec4" class="section">
-<div class="card" style="border:3px solid #ef4444">
-<h2>⏰ REAL ALARM - Phone Pe Bajega! 🔊📱</h2>
-<div style="background:#7f1d1d;padding:12px;border-radius:12px;color:white">
-<b>⚠️ IMPORTANT - Alarm bajane ke liye:</b><br>
-1. Neeche <b>Enable Notification + Keep Screen ON</b> dabao<br>
-2. Phone ko <b>Silent / DND pe MAT rakho</b> - Volume FULL karo<br>
-3. Alarm wali raat ko App <b>khula chor do</b> ya <b>Add to Home Screen</b> karo<br>
-4. <b>Test Alarm</b> dabake check karo - abhi bajna chahiye!
-</div>
-<p id="alarmStatus" style="font-weight:800">Status: OFF - Click Enable</p>
+<div class="card" style="border:2px solid #ef4444">
+<h2>⏰ REAL ALARM - Phone Pe Bajega 🔊</h2>
+<p id="alarmStatus" style="font-weight:800">Status: OFF</p>
 <p id="alarmNext">Next Alarm: None</p>
-<p>Keep Screen ON: <span id="wakeLockStatus">OFF</span> <button class="small" onclick="enableWakeLock()">Keep Screen ON 💡</button></p>
-<button onclick="askNotify()" style="background:#22c55e;font-size:16px;padding:14px">🔔 Enable Notification + Alarm</button>
-<button onclick="testRealAlarm()" style="background:#ef4444;font-size:16px;padding:14px">🔊 TEST REAL ALARM - Abhi Bajao</button>
-<button onclick="stopAlarm()" style="background:#334155">Stop Test Alarm</button>
+<button onclick="askNotify()" style="background:#22c55e">🔔 Enable Notification</button>
+<button onclick="testRealAlarm()" style="background:#ef4444">🔊 TEST ALARM</button>
+<button onclick="stopAlarm()" class="small">Stop Test</button>
 <hr style="border-color:#334155">
 <input type="time" id="alarmTime" value="06:00">
-<input id="alarmMsg" placeholder="e.g. Wake Up! Fajr Prayer Time">
-<label><input type="checkbox" id="voiceCheck" checked style="width:auto"> 🔊 Voice - Bol ke bataye</label>
-<label><input type="checkbox" id="vibrateCheck" checked style="width:auto"> 📳 Vibrate - Phone hilega</label>
+<input id="alarmMsg" placeholder="e.g. Wake Up! Fajr Time">
+<label><input type="checkbox" id="voiceCheck" checked style="width:auto"> 🔊 Voice</label>
+<label><input type="checkbox" id="vibrateCheck" checked style="width:auto"> 📳 Vibrate</label>
 <button onclick="addAlarm()">+ Add Alarm</button>
 <div id="alarmList"></div>
-<p style="font-size:13px;color:#94a3b8">Tip: Agar alarm 1 min baad test karna hai to time abhi se 1 min aage set karo, phir dekho bajta hai ya nahi.</p>
-<!-- REAL ALARM POPUP - FULL SCREEN -->
-<div id="alarmPopup" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#dc2626; z-index:10000; text-align:center; padding-top:60px; color:white;">
-<div class="alarm-big">⏰🔔⏰</div>
-<h2 id="popupMsg" style="color:white;font-size:28px">Wake Up!</h2>
-<p id="popupTime" style="font-size:18px"></p>
-<p style="font-size:16px">📳 Phone vibrate ho raha hai + 🔊 Sound baj raha hai</p>
-<button onclick="stopAlarm()" style="background:#22c55e;font-size:22px;padding:18px 36px;border:2px solid white">I AM UP - STOP ALARM ✅</button><br><br>
-<button onclick="snoozeAlarm()" style="background:#f59e0b;font-size:18px;padding:14px 26px">Snooze 5 Min 😴</button><br><br>
-<button onclick="stopAlarm()" style="background:#1e293b">Stop + Go To Tasks</button>
+<div id="alarmPopup" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#dc2626;z-index:10000;text-align:center;padding-top:70px;color:white">
+<div style="font-size:60px">⏰🔔</div><h2 id="popupMsg" style="color:white">Wake Up!</h2><p id="popupTime"></p>
+<button onclick="stopAlarm()" style="background:#22c55e;font-size:20px;padding:16px 32px">I AM UP - STOP ✅</button><br><br>
+<button onclick="snoozeAlarm()" style="background:#f59e0b">Snooze 5 Min</button>
 </div>
-<audio id="alarmAudio" loop preload="auto"><source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg"><source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav"></audio>
+<audio id="alarmAudio" loop><source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"><source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"></audio>
 </div>
-
 <div class="card" style="border:2px solid #38bdf8">
-<h2>📜 History - Full Record</h2>
+<h2>📜 History</h2>
 <div class="grid3">
-<div class="stat"><b id="histTotalDays">0</b><small>Total Days</small></div>
-<div class="stat"><b id="histTotalTasks">0</b><small>Tasks Done</small></div>
+<div class="stat"><b id="histTotalDays">0</b><small>Days</small></div>
+<div class="stat"><b id="histTotalTasks">0</b><small>Tasks</small></div>
 <div class="stat"><b id="histTotalPrayer">0</b><small>Prayers</small></div>
-</div>
-<div class="grid3" style="margin-top:10px">
-<div class="stat"><b id="histTotalStudy">0</b><small>Study Min</small></div>
-<div class="stat"><b id="histTotalWater">0</b><small>Water</small></div>
-<div class="stat"><b id="histTotalExpense">0</b><small>Expense</small></div>
 </div>
 <input type="date" id="histDateFilter" onchange="renderHistory()">
 <input id="histSearch" placeholder="Search..." oninput="renderHistory()">
-<div class="flex"><button class="small" onclick="setHistFilter('all')">All</button><button class="small" onclick="setHistFilter('week')">Last 7 Days</button><button class="small" onclick="setHistFilter('month')">Last 30 Days</button><button class="small" onclick="setHistFilter('best')">Best Days</button></div>
-<select id="histSort" onchange="renderHistory()"><option value="new">Newest First</option><option value="old">Oldest First</option><option value="best">Best First</option></select>
+<div class="flex"><button class="small" onclick="setHistFilter('all')">All</button><button class="small" onclick="setHistFilter('week')">7 Days</button><button class="small" onclick="setHistFilter('month')">30 Days</button><button class="small" onclick="setHistFilter('best')">Best</button></div>
 <h3>📅 Calendar</h3><div id="histCalendar" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px"></div>
-<h3>📋 Detailed List</h3><p id="histCount"></p><div id="historyFullList"></div><div id="history"></div>
-<button class="small" onclick="exportHistory()" style="background:#22c55e">Export History</button>
+<h3>📋 List</h3><p id="histCount"></p><div id="historyFullList"></div><div id="history"></div>
+<button class="small" onclick="exportHistory()" style="background:#22c55e">Export</button>
 <button class="small" onclick="clearAll()">Delete All</button>
 </div>
 <div class="card">
 <h2>🏆 Weekly Report</h2><div id="weeklyReport"></div><div id="rewards"></div>
-<p>Next Reward: <b id="nextReward"></b></p><button onclick="claimReward()">Claim Reward 🎁</button><p id="rewardMsg"></p>
+<p>Next Reward: <b id="nextReward"></b></p><button onclick="claimReward()">Claim Reward 🎁</button>
 </div>
+</div>
+
+<!-- BOTTOM 4 BOXES - HAMESHA NAZAR AYENGE -->
+<div class="bottom-nav">
+<button id="tab1" class="active" onclick="showSection(1)">🏠<br>HOME</button>
+<button id="tab2" onclick="showSection(2)">💪<br>GYM + STUDY</button>
+<button id="tab3" onclick="showSection(3)">💰<br>MONEY + HABITS</button>
+<button id="tab4" onclick="showSection(4)">📜<br>HISTORY + ALARM</button>
 </div>
 <script>
-// ===== BASIC =====
+// ===== VIDEO WALI LOADING - NO DOTS =====
+(function(){
+  let words=document.querySelectorAll('#loadWords span');
+  let big=document.getElementById('loadBig');
+  let colors=["#22c55e","#22c55e","#facc15","#facc15","#facc15","#facc15","#facc15","#facc15","#facc15","#facc15"];
+  let i=0;
+  big.innerText="DISCIPLINE";
+  let timer=setInterval(()=>{
+    if(i>0) words[i-1].classList.remove('on');
+    if(i<words.length){
+      words[i].classList.add('on');
+      words[i].style.color=colors[i];
+      words[i].style.textShadow="0 0 12px "+colors[i];
+      big.style.color=colors[i]; big.style.textShadow="0 0 20px "+colors[i];
+      big.innerText=words[i].innerText.toUpperCase();
+      i++;
+    } else {
+      clearInterval(timer);
+      big.innerText="DISCIPLINE"; big.style.color="#22c55e";
+      words.forEach((w,idx)=>{ w.classList.add('on'); w.style.color=colors[idx]; });
+      setTimeout(()=>{ document.getElementById('loading').style.transition="0.6s"; document.getElementById('loading').style.opacity="0"; setTimeout(()=>{ document.getElementById('loading').style.display="none"; },600); },700);
+    }
+  },320);
+})();
 const QUOTES=["Discipline is choosing what you want most over what you want now.","No pain, no gain. Keep going Champ.","Small wins every day = Big success.","You are stronger than your excuses.","Wake up. Work hard. Repeat.","Success is not luck, it is daily discipline.","Your future self is watching you right now."];
 function newQuote(){ document.getElementById('dailyQuote').innerText='"'+QUOTES[Math.floor(Math.random()*QUOTES.length)]+'"'; } newQuote();
 function showSection(n){ [1,2,3,4].forEach(i=>{ document.getElementById('sec'+i).classList.toggle('active', i===n); document.getElementById('tab'+i).classList.toggle('active', i===n); }); window.scrollTo(0,0); }
-function toggleTheme(){ document.body.classList.toggle('light'); localStorage.setItem('THEME', document.body.classList.contains('light')?'light':'dark'); }
-if(localStorage.getItem('THEME')==='light') document.body.classList.add('light');
-function uploadPhoto(e){ let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=function(){ document.getElementById('profileImg').src=r.result; localStorage.setItem('PROFILE_PHOTO', r.result); }; r.readAsDataURL(f); }
-if(localStorage.getItem('PROFILE_PHOTO')) document.getElementById('profileImg').src=localStorage.getItem('PROFILE_PHOTO');
-function installApp(){ alert("Chrome -> 3 Dots -> Add to Home Screen -> Install. Ab ye real App jaisa ban jayega!"); }
-function shareWhatsApp(){ let pts=calcPoints(); let done=d.tasks.filter(t=>t.d).length; let txt=`🔥 My Discipline Today: ${done}/${d.tasks.length} tasks done! Prayers ${Object.values(d.namaz).filter(Boolean).length}/5, Study ${d.study||0} min, XP ${pts}. I am becoming LEGEND! 💪`; window.open("https://wa.me/?text="+encodeURIComponent(txt)); }
 function speakText(txt){ if(!('speechSynthesis' in window)) return; speechSynthesis.cancel(); let u=new SpeechSynthesisUtterance(txt); u.lang='en-US'; u.rate=0.9; u.volume=1; speechSynthesis.speak(u); }
-function speakCoach(){ let txt=`Hey Champ. Today you did ${d.tasks.filter(t=>t.d).length} tasks. Keep going, you are doing great!`; speakText(txt); showCelebrate({emoji:"🔊",title:"VOICE COACH 🔊",msg:txt,pts:"Listening..."}); }
-function askAI(){ let done=d.tasks.filter(t=>t.d).length, total=d.tasks.length, pct=total?Math.round(done/total*100):0; let msg=""; if(pct>=80) msg=`Excellent Champ! ${pct}% done! Beast Mode! Tomorrow try 100%!`; else if(pct>=50) msg=`Good job! ${pct}% done. Do 2 more tasks before sleeping!`; else if(pct>0) msg=`You started! ${pct}% done. Just do 1 more task now!`; else msg=`Not started yet. Start with water + prayer! You can do it!`; document.getElementById('aiCoachBox').innerHTML=`<b>🤖 AI Coach:</b><br>${msg}<br><small>Tasks: ${done}/${total} | Prayers: ${Object.values(d.namaz).filter(Boolean).length}/5 | Study: ${d.study||0} min</small>`; speakText(msg); }
-
-// ===== POPUP - GREAT JOB =====
+function shareWhatsApp(){ let pts=calcPoints(); let done=d.tasks.filter(t=>t.d).length; let txt=`🔥 My Discipline Today: ${done}/${d.tasks.length} tasks done! Prayers ${Object.values(d.namaz).filter(Boolean).length}/5, Study ${d.study||0} min, XP ${pts}. I am becoming LEGEND! 💪`; window.open("https://wa.me/?text="+encodeURIComponent(txt)); }
 const PRAISE=[{emoji:"🎉",title:"GREAT JOB! 🎉",msg:"You did it Champ!",pts:"+10 Points"},{emoji:"🔥",title:"AMAZING! 🔥",msg:"Beast Mode ON!",pts:"+10 Points"},{emoji:"💪",title:"STRONG! 💪",msg:"Discipline is your superpower!",pts:"+10 Points"},{emoji:"👑",title:"KING MOVE! 👑",msg:"Legends are made like this!",pts:"+10 Points"},{emoji:"⭐",title:"STAR! ⭐",msg:"You are unstoppable!",pts:"+10 Points"},{emoji:"🚀",title:"LET'S GO! 🚀",msg:"Another task crushed!",pts:"+10 Points"}];
 const ALL_DONE_PRAISE={emoji:"🏆",title:"ALL TASKS DONE! 🏆",msg:"WOW! You finished EVERYTHING! LEGEND!",pts:"LEGEND!"};
 function showCelebrate(custom){ let p=custom||PRAISE[Math.floor(Math.random()*PRAISE.length)]; document.getElementById('popupEmoji').innerText=p.emoji; document.getElementById('popupTitle').innerText=p.title; document.getElementById('popupMsg').innerText=p.msg; document.getElementById('popupPoints').innerText=p.pts; document.getElementById('celebratePopup').style.display="flex"; if(navigator.vibrate) navigator.vibrate(200); }
 function closeCelebrate(){ document.getElementById('celebratePopup').style.display="none"; }
 function showMotivate(msg){ document.getElementById('motivateMsg').innerText=msg||"No pressure Champ."; document.getElementById('motivatePopup').style.display="flex"; }
 function closeMotivate(){ document.getElementById('motivatePopup').style.display="none"; }
-
-// ===== DATA =====
 let today=new Date().toISOString().slice(0,10);
 document.getElementById('todayDate').innerText="Today: "+new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 let all=JSON.parse(localStorage.getItem('BOYS_FULL_V2')||'{}');
-function defaultDay(){ return {tasks:[{t:"Wake up early - 6 AM",d:false,cat:"General",pri:"High 🔴"},{t:"Fajr Prayer",d:false,cat:"General",pri:"High 🔴"},{t:"Drink Water - 8 glasses",d:false,cat:"General",pri:"Normal"},{t:"30 min Workout",d:false,cat:"Gym",pri:"Normal"},{t:"1 Hour Study",d:false,cat:"Study",pri:"High 🔴"},{t:"Read 10 Pages",d:false,cat:"Study",pri:"Normal"},{t:"Help Family",d:false,cat:"Family",pri:"Normal"},{t:"No Reels After 11 PM",d:false,cat:"Personal",pri:"Normal"},{t:"Sleep Early",d:false,cat:"Personal",pri:"Normal"}],namaz:{Fajr:false,Zuhr:false,Asr:false,Maghrib:false,Isha:false},water:0,sleep:"",sleepQuality:"Good",workout:"No Workout",workoutMin:"",weight:"",weightBefore:"",weightGoal:"",study:0,studySubject:"Math",studyTopic:"",schoolNotes:"",mood:"Happy 😊",energy:"5",confidence:"5",journal:"",grat1:"",grat2:"",grat3:"",goal1:"",goal2:"",goal3:"",tomorrowPlan:"",food:"Not Tracked",meals:"",quran:false,quranPages:"",tahajjud:false,expense:[],pocketMoney:"",savingGoal:"",screenTime:"",socialTime:"",myRule:"",goodHabits:{Exercise:false,Reading:false,NoSugar:false,EarlySleep:false},badHabits:{NoReels:false,NoJunk:false,NoLateNight:false,NoAnger:false},focusSessions:0,focusMin:0,gymLog:[],examName:"",examDate:"",ttMon:"",ttTue:"",ttWed:"",ttThu:"",ttFri:"",ttSat:"",ttSun:"",friends:[]}; }
+function defaultDay(){ return {tasks:[{t:"Wake up early - 6 AM",d:false},{t:"Fajr Prayer",d:false},{t:"Drink Water - 8 glasses",d:false},{t:"30 min Workout",d:false},{t:"1 Hour Study",d:false},{t:"Read 10 Pages",d:false},{t:"Help Family",d:false},{t:"No Reels After 11 PM",d:false},{t:"Sleep Early",d:false}],namaz:{Fajr:false,Zuhr:false,Asr:false,Maghrib:false,Isha:false},water:0,sleep:"",workout:"No Workout",workoutMin:"",weight:"",study:0,studySubject:"Math",studyTopic:"",mood:"Happy 😊",energy:"5",journal:"",grat1:"",goal1:"",goal2:"",goal3:"",food:"Not Tracked",quran:false,expense:[],pocketMoney:"",savingGoal:"",screenTime:"",socialTime:"",goodHabits:{Exercise:false,Reading:false,NoSugar:false,EarlySleep:false},badHabits:{NoReels:false,NoJunk:false,NoLateNight:false,NoAnger:false},focusSessions:0,focusMin:0,gymLog:[],examName:"",examDate:"",friends:[]}; }
 if(!all[today]) all[today]=defaultDay();
 let d=all[today];
 let userName=localStorage.getItem('BOYS_FULL_NAME')||'Hey Champ 💪';
 function save(){ localStorage.setItem('BOYS_FULL_V2',JSON.stringify(all)); render(); }
-function saveName(){ let v=document.getElementById('nameInput').value; if(v){ localStorage.setItem('BOYS_FULL_NAME',"Hey "+v+" 💪"); userName="Hey "+v+" 💪"; localStorage.setItem('AGE',document.getElementById('ageInput').value); localStorage.setItem('BIG_GOAL',document.getElementById('goalInput').value); render(); showCelebrate({emoji:"👋",title:"WELCOME "+v.toUpperCase()+"!",msg:"Welcome Champ!",pts:"Let's Go!"}); } }
+function saveName(){ let v=document.getElementById('nameInput').value; if(v){ localStorage.setItem('BOYS_FULL_NAME',"Hey "+v+" 💪"); userName="Hey "+v+" 💪"; render(); showCelebrate({emoji:"👋",title:"WELCOME "+v.toUpperCase()+"!",msg:"Welcome Champ!",pts:"Let's Go!"}); } }
 function toggleTask(i){ let was=d.tasks[i].d; d.tasks[i].d=!d.tasks[i].d; save(); if(!was&&d.tasks[i].d){ let done=d.tasks.filter(t=>t.d).length; if(done===d.tasks.length) showCelebrate(ALL_DONE_PRAISE); else if(done===Math.floor(d.tasks.length/2)) showCelebrate({emoji:"🔥",title:"HALF WAY DONE! 🔥",msg:"Half done!",pts:"+10 Points"}); else showCelebrate(); } }
 function delTask(i){ d.tasks.splice(i,1); save(); }
-function addTask(){ let v=document.getElementById('newTask').value; if(!v) return; d.tasks.push({t:v,d:false,cat:document.getElementById('taskCat').value,pri:document.getElementById('taskPriority').value}); document.getElementById('newTask').value=""; save(); }
-function clearDoneTasks(){ d.tasks=d.tasks.filter(t=>!t.d); save(); }
+function addTask(){ let v=document.getElementById('newTask').value; if(!v) return; d.tasks.push({t:v,d:false}); document.getElementById('newTask').value=""; save(); }
 function toggleNamaz(n){ let was=d.namaz[n]; d.namaz[n]=!d.namaz[n]; save(); if(!was&&d.namaz[n]){ let c=Object.values(d.namaz).filter(Boolean).length; if(c===5) showCelebrate({emoji:"🕌",title:"ALL 5 PRAYERS DONE! 🕌",msg:"MASHAALLAH! All 5 done!",pts:"+25 Points"}); else showCelebrate({emoji:"🕌",title:"MASHAALLAH! 🕌",msg:"Prayer done!",pts:"+5 Points"}); } }
 function addWater(){ d.water++; save(); if(d.water===8) showCelebrate({emoji:"💧",title:"HYDRATION KING! 💧",msg:"8 glasses done!",pts:"+16 Points"}); }
 function resetWater(){ d.water=0; save(); }
 function saveQuran(){ d.quran=document.getElementById('quranCheck').checked; save(); if(d.quran) showCelebrate({emoji:"📖",title:"QURAN DONE! 📖",msg:"MashaAllah!",pts:"+15 Points"}); }
-function saveExtra2(){ d.tahajjud=document.getElementById('tahajjudCheck').checked; save(); }
 function saveStudy(){ d.study=document.getElementById('studyMin').value; save(); if(d.study>0) showCelebrate({emoji:"📚",title:"STUDY BEAST! 📚",msg:"You studied "+d.study+" min!",pts:"Study Points"}); }
 function saveJournal(){ d.mood=document.getElementById('mood').value; d.journal=document.getElementById('journal').value; save(); showCelebrate({emoji:"📝",title:"JOURNAL SAVED! 📝",msg:"Good job!",pts:"+5 Points"}); }
-function saveExtra(){ d.sleep=document.getElementById('sleep').value; d.sleepQuality=document.getElementById('sleepQuality').value; d.workout=document.getElementById('workout').value; d.workoutMin=document.getElementById('workoutMin').value; d.weight=document.getElementById('weight').value; d.weightBefore=document.getElementById('weightBefore').value; d.weightGoal=document.getElementById('weightGoal').value; d.studySubject=document.getElementById('studySubject').value; d.studyTopic=document.getElementById('studyTopic').value; d.schoolNotes=document.getElementById('schoolNotes').value; d.mood=document.getElementById('mood').value; d.energy=document.getElementById('energy').value; d.confidence=document.getElementById('confidence').value; d.journal=document.getElementById('journal').value; d.grat1=document.getElementById('grat1').value; d.grat2=document.getElementById('grat2').value; d.grat3=document.getElementById('grat3').value; d.goal1=document.getElementById('goal1').value; d.goal2=document.getElementById('goal2').value; d.goal3=document.getElementById('goal3').value; d.tomorrowPlan=document.getElementById('tomorrowPlan').value; d.food=document.getElementById('food').value; d.meals=document.getElementById('meals').value; d.quranPages=document.getElementById('quranPages').value; d.savingGoal=document.getElementById('savingGoal').value; d.pocketMoney=document.getElementById('pocketMoney').value; d.screenTime=document.getElementById('screenTime').value; d.socialTime=document.getElementById('socialTime').value; d.myRule=document.getElementById('myRule').value; d.examName=document.getElementById('examName').value; d.examDate=document.getElementById('examDate').value; d.ttMon=document.getElementById('ttMon').value; d.ttTue=document.getElementById('ttTue').value; d.ttWed=document.getElementById('ttWed').value; d.ttThu=document.getElementById('ttThu').value; d.ttFri=document.getElementById('ttFri').value; d.ttSat=document.getElementById('ttSat').value; d.ttSun=document.getElementById('ttSun').value; save(); }
-function addExpense(){ let a=document.getElementById('expenseAmt').value; let f=document.getElementById('expenseFor').value||"Other"; if(!a) return; d.expense.push({amt:parseInt(a),for:f,time:new Date().toLocaleTimeString()}); document.getElementById('expenseAmt').value=""; document.getElementById('expenseFor').value=""; save(); }
+function saveExtra(){ d.sleep=document.getElementById('sleep').value; d.workout=document.getElementById('workout').value; d.workoutMin=document.getElementById('workoutMin').value; d.weight=document.getElementById('weight').value; d.studySubject=document.getElementById('studySubject').value; d.studyTopic=document.getElementById('studyTopic').value; d.mood=document.getElementById('mood').value; d.energy=document.getElementById('energy').value; d.journal=document.getElementById('journal').value; d.grat1=document.getElementById('grat1').value; d.goal1=document.getElementById('goal1').value; d.goal2=document.getElementById('goal2').value; d.goal3=document.getElementById('goal3').value; d.food=document.getElementById('food').value; d.savingGoal=document.getElementById('savingGoal').value; d.pocketMoney=document.getElementById('pocketMoney').value; d.screenTime=document.getElementById('screenTime').value; d.socialTime=document.getElementById('socialTime').value; d.examName=document.getElementById('examName').value; d.examDate=document.getElementById('examDate').value; save(); }
+function addExpense(){ let a=document.getElementById('expenseAmt').value; let f=document.getElementById('expenseFor').value||"Other"; if(!a) return; d.expense.push({amt:parseInt(a),for:f}); document.getElementById('expenseAmt').value=""; document.getElementById('expenseFor').value=""; save(); }
 function deleteExpense(i){ d.expense.splice(i,1); save(); }
 function toggleGoodHabit(h){ let was=d.goodHabits[h]; d.goodHabits[h]=!d.goodHabits[h]; save(); if(!was&&d.goodHabits[h]) showCelebrate({emoji:"✅",title:"GOOD HABIT! ✅",msg:h+" done!",pts:"+5 Points"}); }
 function toggleBadHabit(h){ d.badHabits[h]=!d.badHabits[h]; save(); if(d.badHabits[h]) showCelebrate({emoji:"🛡️",title:"YOU AVOIDED IT! 🛡️",msg:"You avoided "+h+"!",pts:"+10 Points"}); }
-function addGymLog(){ let ex=document.getElementById('gymExercise').value; let s=document.getElementById('gymSets').value; let r=document.getElementById('gymReps').value; let w=document.getElementById('gymWeight').value; if(!ex) return alert("Enter exercise"); d.gymLog.push({ex:ex,sets:s,reps:r,weight:w}); document.getElementById('gymExercise').value=""; save(); showCelebrate({emoji:"💪",title:"GYM SET DONE! 💪",msg:ex+" - "+s+" x "+r,pts:"+15 Points"}); }
+function addGymLog(){ let ex=document.getElementById('gymExercise').value; let s=document.getElementById('gymSets').value; let r=document.getElementById('gymReps').value; if(!ex) return alert("Enter exercise"); d.gymLog.push({ex:ex,sets:s,reps:r}); document.getElementById('gymExercise').value=""; save(); showCelebrate({emoji:"💪",title:"GYM SET DONE! 💪",msg:ex+" - "+s+" x "+r,pts:"+15 Points"}); }
 function addFriend(){ let n=document.getElementById('friendName').value; let s=document.getElementById('friendScore').value; if(!n) return; d.friends.push({name:n,score:parseInt(s)||0}); document.getElementById('friendName').value=""; document.getElementById('friendScore').value=""; save(); }
-function challengeFriend(){ showCelebrate({emoji:"⚔️",title:"CHALLENGE SENT! ⚔️",msg:"Who studies more today?",pts:"Challenge!"}); }
 function checkMission(){ let done=d.tasks.filter(t=>t.d).length; let prayer=Object.values(d.namaz).filter(Boolean).length; if(done>=5&&prayer>=1&&d.water>=8){ showCelebrate({emoji:"🎁",title:"MISSION DONE! 🎁",msg:"Bonus 50 XP!",pts:"+50 XP"}); } else showMotivate("Mission: 5 Tasks + 1 Prayer + 8 Water. You have "+done+" tasks, "+prayer+" prayers, "+d.water+" water."); }
 function clearAll(){ if(confirm("Delete ALL?")){ localStorage.removeItem('BOYS_FULL_V2'); location.reload(); } }
-function exportData(){ let blob=new Blob([JSON.stringify(all)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='my-discipline.json'; a.click(); }
-function importData(e){ let f=e.target.files[0]; if(!f) return; let r=new FileReader(); r.onload=function(){ try{ all=JSON.parse(r.result); localStorage.setItem('BOYS_FULL_V2',JSON.stringify(all)); d=all[today]||defaultDay(); location.reload(); }catch(err){ alert("Invalid"); } }; r.readAsText(f); }
+function exportHistory(){ let blob=new Blob([JSON.stringify(all)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='history.json'; a.click(); }
 function claimReward(){ let pts=calcPoints(); if(pts>=100) showCelebrate({emoji:"🎁",title:"REWARD CLAIMED! 🎁",msg:"You earned free time!",pts:"Reward!"}); else showMotivate("Need 100 XP. You have "+pts+"."); }
 function calcPoints(){ let pts=0; Object.values(all).forEach(day=>{ pts+=day.tasks.filter(t=>t.d).length*10+Object.values(day.namaz).filter(Boolean).length*5+(day.water||0)*2+(parseInt(day.study)||0)/10; }); return Math.round(pts); }
 function updateExam(){ let dt=document.getElementById('examDate').value; if(!dt) return; let diff=Math.ceil((new Date(dt)-new Date())/(1000*60*60*24)); document.getElementById('examCountdown').innerText=diff>=0?`⏳ ${diff} days left for ${document.getElementById('examName').value||'Exam'}!`:"Exam Done!"; }
 let histFilter='all'; function setHistFilter(f){ histFilter=f; renderHistory(); }
-function exportHistory(){ let blob=new Blob([JSON.stringify(all)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='history.json'; a.click(); }
-function renderHistory(){ let dates=Object.keys(all).sort(); let search=(document.getElementById('histSearch')?.value||'').toLowerCase(); let dateF=document.getElementById('histDateFilter')?.value||''; let sort=document.getElementById('histSort')?.value||'new'; let filtered=dates.filter(date=>{ let day=all[date]; if(dateF&&date!==dateF) return false; if(histFilter==='week' && (new Date()-new Date(date))/(1000*60*60*24)>7) return false; if(histFilter==='month' && (new Date()-new Date(date))/(1000*60*60*24)>30) return false; if(histFilter==='best' && day.tasks.length&&day.tasks.filter(t=>t.d).length/day.tasks.length*100<100) return false; if(search&&!(JSON.stringify(day).toLowerCase()+date).includes(search)) return false; return true; }); if(sort==='new') filtered.reverse(); let td=dates.length, tDone=0, tTot=0, tPray=0, tStudy=0, tWater=0, tExp=0; dates.forEach(dt=>{ let day=all[dt]; tDone+=day.tasks.filter(t=>t.d).length; tTot+=day.tasks.length; tPray+=Object.values(day.namaz||{}).filter(Boolean).length; tStudy+=parseInt(day.study||0); tWater+=parseInt(day.water||0); tExp+=(day.expense||[]).reduce((s,e)=>s+e.amt,0); }); try{ document.getElementById('histTotalDays').innerText=td; document.getElementById('histTotalTasks').innerText=tDone+"/"+tTot; document.getElementById('histTotalPrayer').innerText=tPray; document.getElementById('histTotalStudy').innerText=tStudy; document.getElementById('histTotalWater').innerText=tWater; document.getElementById('histTotalExpense').innerText=tExp; }catch(e){} let cal=document.getElementById('histCalendar'); if(cal){ cal.innerHTML=""; dates.slice(-35).forEach(date=>{ let day=all[date]; let done=day.tasks.filter(t=>t.d).length; let pct=day.tasks.length?Math.round(done/day.tasks.length*100):0; let col=pct>=80?"#22c55e":pct>=50?"#f59e0b":"#ef4444"; cal.innerHTML+=`<div style="background:${col};padding:8px;border-radius:10px;text-align:center;color:white;font-size:12px"><b>${date.slice(8,10)}</b><br>${pct}%</div>`; }); } let list=document.getElementById('historyFullList'); if(list){ document.getElementById('histCount').innerText="Showing "+filtered.length+" days"; list.innerHTML=""; filtered.forEach(date=>{ let day=all[date]; let done=day.tasks.filter(t=>t.d).length; let pct=day.tasks.length?Math.round(done/day.tasks.length*100):0; list.innerHTML+=`<div style="background:var(--input);padding:12px;border-radius:12px;margin:8px 0;border:1px solid var(--border)"><b>${date} - ${pct}% - ${done}/${day.tasks.length} tasks</b><p style="font-size:13px">Prayer ${Object.values(day.namaz||{}).filter(Boolean).length}/5 | Water ${day.water||0} | Study ${day.study||0} min | Mood ${day.mood||''}</p></div>`; }); } }
+function renderHistory(){ let dates=Object.keys(all).sort(); let search=(document.getElementById('histSearch')?.value||'').toLowerCase(); let dateF=document.getElementById('histDateFilter')?.value||''; let filtered=dates.filter(date=>{ let day=all[date]; if(dateF&&date!==dateF) return false; if(histFilter==='week' && (new Date()-new Date(date))/(1000*60*60*24)>7) return false; if(histFilter==='month' && (new Date()-new Date(date))/(1000*60*60*24)>30) return false; if(histFilter==='best' && day.tasks.length&&day.tasks.filter(t=>t.d).length/day.tasks.length*100<100) return false; if(search&&!(JSON.stringify(day).toLowerCase()+date).includes(search)) return false; return true; }); filtered.reverse(); let td=dates.length, tDone=0, tTot=0, tPray=0; dates.forEach(dt=>{ let day=all[dt]; tDone+=day.tasks.filter(t=>t.d).length; tTot+=day.tasks.length; tPray+=Object.values(day.namaz||{}).filter(Boolean).length; }); try{ document.getElementById('histTotalDays').innerText=td; document.getElementById('histTotalTasks').innerText=tDone+"/"+tTot; document.getElementById('histTotalPrayer').innerText=tPray; }catch(e){} let cal=document.getElementById('histCalendar'); if(cal){ cal.innerHTML=""; dates.slice(-35).forEach(date=>{ let day=all[date]; let done=day.tasks.filter(t=>t.d).length; let pct=day.tasks.length?Math.round(done/day.tasks.length*100):0; let col=pct>=80?"#22c55e":pct>=50?"#f59e0b":"#ef4444"; cal.innerHTML+=`<div style="background:${col};padding:8px;border-radius:10px;text-align:center;color:white;font-size:12px"><b>${date.slice(8,10)}</b><br>${pct}%</div>`; }); } let list=document.getElementById('historyFullList'); if(list){ document.getElementById('histCount').innerText="Showing "+filtered.length+" days"; list.innerHTML=""; filtered.forEach(date=>{ let day=all[date]; let done=day.tasks.filter(t=>t.d).length; let pct=day.tasks.length?Math.round(done/day.tasks.length*100):0; list.innerHTML+=`<div style="background:#0f172a;padding:12px;border-radius:12px;margin:8px 0;border:1px solid #334155"><b>${date} - ${pct}% - ${done}/${day.tasks.length} tasks</b><p style="font-size:13px">Prayer ${Object.values(day.namaz||{}).filter(Boolean).length}/5 | Water ${day.water||0} | Study ${day.study||0} min | Mood ${day.mood||''}</p></div>`; }); } }
 </script>
-<script>
-// ===== REAL ALARM ENGINE - PHONE PE BAJEGA =====
+  <script>
+// ===== REAL ALARM - PHONE PE BAJEGA =====
 let alarms=JSON.parse(localStorage.getItem('BOYS_FULL_ALARMS')||'[]');
 if(alarms.length===0){ alarms=[{time:"06:00",msg:"Wake Up! Fajr Prayer Time",on:true},{time:"07:00",msg:"Workout + Breakfast",on:true},{time:"13:00",msg:"Study Time",on:true},{time:"18:00",msg:"Workout Time",on:true},{time:"22:00",msg:"Phone Off! Sleep Time",on:true}]; localStorage.setItem('BOYS_FULL_ALARMS',JSON.stringify(alarms)); }
-let wakeLock=null;
-async function enableWakeLock(){ try{ if('wakeLock' in navigator){ wakeLock=await navigator.wakeLock.request('screen'); document.getElementById('wakeLockStatus').innerText="ON 💡 - Screen will NOT sleep"; alert("Screen ON! Ab alarm ke time screen band nahi hoga."); } else { document.getElementById('wakeLockStatus').innerText="Not supported - App khula rakho"; } }catch(e){ alert("Screen ON failed, lekin alarm phir bhi bajega agar app khula hai."); } }
-async function askNotify(){ if(!("Notification" in window)) return alert("Open in Chrome"); let p=await Notification.requestPermission(); if(p==="granted"){ document.getElementById('alarmStatus').innerText="Status: ON ✅ - Real Alarm Ready!"; document.getElementById('alarmLiveStatus').innerText="⏰ Alarm System: ON ✅ - Checking har 1 sec me"; await enableWakeLock(); showCelebrate({emoji:"🔔",title:"REAL ALARM ON! 🔔",msg:"Ab alarm phone pe sach me bajega! Volume FULL rakho!",pts:"Alarm Ready!"}); testRealAlarmShort(); } else { alert("Notification Allow karo warna alarm nahi bajega!"); } }
-function playLoudBeep(){ try{ let ctx=new (window.AudioContext||window.webkitAudioContext)(); let osc=ctx.createOscillator(); let gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.type='square'; osc.frequency.value=880; gain.gain.value=0.5; osc.start(); let i=0; let beep=setInterval(()=>{ osc.frequency.value = i%2===0?880:1200; i++; if(i>10){ clearInterval(beep); osc.stop(); ctx.close(); } },300); }catch(e){} }
+async function askNotify(){ if(!("Notification" in window)) return alert("Open in Chrome"); let p=await Notification.requestPermission(); if(p==="granted"){ document.getElementById('alarmStatus').innerText="Status: ON ✅ - Real Alarm Ready!"; showCelebrate({emoji:"🔔",title:"REAL ALARM ON! 🔔",msg:"Ab alarm phone pe sach me bajega! Volume FULL rakho!",pts:"Alarm Ready!"}); } else { alert("Notification Allow karo warna alarm nahi bajega!"); } }
+function playLoudBeep(){ try{ let ctx=new (window.AudioContext||window.webkitAudioContext)(); let osc=ctx.createOscillator(); let gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.type='square'; osc.frequency.value=880; gain.gain.value=0.5; osc.start(); let i=0; let beep=setInterval(()=>{ osc.frequency.value=i%2===0?880:1200; i++; if(i>10){ clearInterval(beep); osc.stop(); ctx.close(); } },300); }catch(e){} }
 let alarmBeepInterval=null;
 function startRealSound(){ let au=document.getElementById('alarmAudio'); au.volume=1; au.play().catch(()=>{ playLoudBeep(); }); playLoudBeep(); alarmBeepInterval=setInterval(()=>{ playLoudBeep(); if(navigator.vibrate) navigator.vibrate([1000,500,1000,500,1000]); },2000); }
 function stopRealSound(){ let au=document.getElementById('alarmAudio'); au.pause(); au.currentTime=0; if(alarmBeepInterval) clearInterval(alarmBeepInterval); if(navigator.vibrate) navigator.vibrate(0); speechSynthesis.cancel(); }
 function testRealAlarm(){ ringAlarm({msg:"TEST ALARM - Ye real alarm hai! Agar ye baj raha hai to subah bhi bajega!",time:"TEST"}); }
-function testRealAlarmShort(){ speakText("Alarm is ready Champ!"); }
-function addAlarm(){ let t=document.getElementById('alarmTime').value; let m=document.getElementById('alarmMsg').value||"Discipline Time!"; if(!t) return alert("Select time"); alarms.push({time:t,msg:m,on:true}); localStorage.setItem('BOYS_FULL_ALARMS',JSON.stringify(alarms)); renderAlarms(); updateNextAlarm(); showCelebrate({emoji:"⏰",title:"ALARM ADDED! ⏰",msg:"Alarm set for "+t+"! Phone pe bajega!",pts:"Alarm Set!"}); }
-function renderAlarms(){ let div=document.getElementById('alarmList'); div.innerHTML=""; alarms.forEach((a,i)=>{ div.innerHTML+=`<div style="background:var(--input);padding:12px;border-radius:12px;margin:8px 0;display:flex;justify-content:space-between;align-items:center"><div><b>⏰ ${a.time}</b><br><span>${a.msg}</span></div><div><button class="small" onclick="toggleAlarm(${i})">${a.on?'ON ✅':'OFF'}</button><button onclick="deleteAlarm(${i})" style="background:red">Delete</button></div></div>`; }); updateNextAlarm(); }
+function addAlarm(){ let t=document.getElementById('alarmTime').value; let m=document.getElementById('alarmMsg').value||"Discipline Time!"; if(!t) return alert("Select time"); alarms.push({time:t,msg:m,on:true}); localStorage.setItem('BOYS_FULL_ALARMS',JSON.stringify(alarms)); renderAlarms(); updateNextAlarm(); showCelebrate({emoji:"⏰",title:"ALARM ADDED! ⏰",msg:"Alarm set for "+t+"!",pts:"Alarm Set!"}); }
+function renderAlarms(){ let div=document.getElementById('alarmList'); div.innerHTML=""; alarms.forEach((a,i)=>{ div.innerHTML+=`<div style="background:#0f172a;padding:12px;border-radius:12px;margin:8px 0;display:flex;justify-content:space-between;align-items:center"><div><b>⏰ ${a.time}</b><br><span>${a.msg}</span></div><div><button class="small" onclick="toggleAlarm(${i})">${a.on?'ON ✅':'OFF'}</button><button onclick="deleteAlarm(${i})" style="background:red">Delete</button></div></div>`; }); updateNextAlarm(); }
 function toggleAlarm(i){ alarms[i].on=!alarms[i].on; localStorage.setItem('BOYS_FULL_ALARMS',JSON.stringify(alarms)); renderAlarms(); }
 function deleteAlarm(i){ alarms.splice(i,1); localStorage.setItem('BOYS_FULL_ALARMS',JSON.stringify(alarms)); renderAlarms(); }
-function updateNextAlarm(){ let now=new Date(); let nowStr=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0'); let onAlarms=alarms.filter(a=>a.on).sort((a,b)=>a.time.localeCompare(b.time)); let next=onAlarms.find(a=>a.time>nowStr) || onAlarms[0]; if(next && document.getElementById('alarmNext')) document.getElementById('alarmNext').innerText="Next Alarm: "+next.time+" - "+next.msg; }
+function updateNextAlarm(){ let now=new Date(); let nowStr=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0'); let onA=alarms.filter(a=>a.on).sort((a,b)=>a.time.localeCompare(b.time)); let next=onA.find(a=>a.time>nowStr)||onA[0]; if(next && document.getElementById('alarmNext')) document.getElementById('alarmNext').innerText="Next Alarm: "+next.time+" - "+next.msg; }
 let lastRang="";
 function checkAlarms(){ let now=new Date(); let hh=String(now.getHours()).padStart(2,'0')+":"+String(now.getMinutes()).padStart(2,'0'); if(lastRang===hh+"-"+now.getDate()) return; alarms.forEach(a=>{ if(a.on && a.time===hh){ lastRang=hh+"-"+now.getDate(); ringAlarm(a); } }); }
-function ringAlarm(a){ document.getElementById('popupMsg').innerText=a.msg; document.getElementById('popupTime').innerText="Time: "+a.time+" | "+new Date().toLocaleTimeString(); document.getElementById('alarmPopup').style.display="block"; startRealSound(); if(document.getElementById('vibrateCheck') && document.getElementById('vibrateCheck').checked && navigator.vibrate) navigator.vibrate([1000,500,1000,500,1000,500,1000]); if(document.getElementById('voiceCheck') && document.getElementById('voiceCheck').checked) speakText(a.msg+" Champ, wake up! Wake up!"); if(Notification.permission==="granted"){ try{ new Notification("⏰ ALARM "+a.time,{body:a.msg,requireInteraction:true,tag:'alarm'}); }catch(e){} } }
+function ringAlarm(a){ document.getElementById('popupMsg').innerText=a.msg; document.getElementById('popupTime').innerText="Time: "+a.time+" | "+new Date().toLocaleTimeString(); document.getElementById('alarmPopup').style.display="block"; startRealSound(); if(document.getElementById('vibrateCheck') && document.getElementById('vibrateCheck').checked && navigator.vibrate) navigator.vibrate([1000,500,1000,500,1000,500,1000]); if(document.getElementById('voiceCheck') && document.getElementById('voiceCheck').checked) speakText(a.msg+" Champ, wake up! Wake up!"); if(Notification.permission==="granted"){ try{ new Notification("⏰ ALARM "+a.time,{body:a.msg,requireInteraction:true}); }catch(e){} } }
 function stopAlarm(){ document.getElementById('alarmPopup').style.display="none"; stopRealSound(); showCelebrate({emoji:"⏰",title:"WAKE UP DONE! ⏰",msg:"Good job! You woke up on time!",pts:"+5 Points"}); }
-function snoozeAlarm(){ document.getElementById('alarmPopup').style.display="none"; stopRealSound(); alert("Snooze 5 min - Phir se bajega!"); setTimeout(()=>{ ringAlarm({msg:"Snooze! Wake up now Champ!",time:"Snooze"}); },5*60*1000); }
+function snoozeAlarm(){ document.getElementById('alarmPopup').style.display="none"; stopRealSound(); setTimeout(()=>{ ringAlarm({msg:"Snooze! Wake up now Champ!",time:"Snooze"}); },5*60*1000); }
 setInterval(checkAlarms,1000); setInterval(updateNextAlarm,10000);
-
-// ===== FOCUS TIMER =====
+  </script>
+  <script>
 let focusSec=25*60, focusInterval=null, focusRunning=false;
 function updateFocusDisplay(){ let m=Math.floor(focusSec/60), s=focusSec%60; document.getElementById('focusTimer').innerText=String(m).padStart(2,'0')+":"+String(s).padStart(2,'0'); }
 function startFocus(){ if(focusRunning) return; focusRunning=true; focusInterval=setInterval(()=>{ focusSec--; updateFocusDisplay(); if(focusSec<=0){ clearInterval(focusInterval); focusRunning=false; d.focusSessions=(d.focusSessions||0)+1; d.focusMin=(d.focusMin||0)+25; focusSec=25*60; updateFocusDisplay(); save(); showCelebrate({emoji:"🎯",title:"FOCUS DONE! 🎯",msg:"25 min focus done!",pts:"+25 Points"}); } },1000); }
 function pauseFocus(){ clearInterval(focusInterval); focusRunning=false; }
 function resetFocus(){ clearInterval(focusInterval); focusRunning=false; focusSec=25*60; updateFocusDisplay(); }
 updateFocusDisplay();
-
-// ===== MAIN RENDER =====
 function render(){
   document.getElementById('userNameShow').innerText=userName;
   document.getElementById('nameInput').value=localStorage.getItem('BOYS_FULL_NAME')?.replace("Hey ","").replace(" 💪","")||"";
-  document.getElementById('ageInput').value=localStorage.getItem('AGE')||""; document.getElementById('goalInput').value=localStorage.getItem('BIG_GOAL')||"";
-  let list=document.getElementById('todoList'); list.innerHTML=""; d.tasks.forEach((task,i)=>{ list.innerHTML+=`<li class="${task.d?'done':''}"><input type="checkbox" ${task.d?'checked':''} onchange="toggleTask(${i})"> <span>${task.t} <br><small style="color:#94a3b8">${task.cat||'General'} - ${task.pri||'Normal'}</small></span> <button class="small" onclick="delTask(${i})">x</button></li>`; });
+  let list=document.getElementById('todoList'); list.innerHTML=""; d.tasks.forEach((task,i)=>{ list.innerHTML+=`<li class="${task.d?'done':''}"><input type="checkbox" ${task.d?'checked':''} onchange="toggleTask(${i})"> <span>${task.t}</span> <button class="small" onclick="delTask(${i})">x</button></li>`; });
   let nm=document.getElementById('namaz'); nm.innerHTML=""; Object.keys(d.namaz).forEach(n=>{ nm.innerHTML+=`<button style="background:${d.namaz[n]?'#22c55e':'#334155'};color:white" onclick="toggleNamaz('${n}')">${d.namaz[n]?'✅ ':''}${n}</button>`; });
   document.getElementById('prayerMsg').innerText="Prayers: "+Object.values(d.namaz).filter(Boolean).length+"/5";
   document.getElementById('waterCount').innerText=d.water; document.getElementById('waterMsg').innerText=d.water>=8?"Perfect! 💧":d.water>=4?"Good":"Drink more!";
-  document.getElementById('quranCheck').checked=d.quran||false; document.getElementById('tahajjudCheck').checked=d.tahajjud||false; document.getElementById('quranPages').value=d.quranPages||""; document.getElementById('sleep').value=d.sleep||""; document.getElementById('sleepQuality').value=d.sleepQuality||"Good";
-  document.getElementById('workout').value=d.workout||"No Workout"; document.getElementById('workoutMin').value=d.workoutMin||""; document.getElementById('weight').value=d.weight||""; document.getElementById('weightBefore').value=d.weightBefore||""; document.getElementById('weightGoal').value=d.weightGoal||"";
-  document.getElementById('weightProgress').innerText=d.weightBefore&&d.weightGoal?`From ${d.weightBefore}kg to ${d.weight||d.weightBefore}kg - Goal ${d.weightGoal}kg`:"";
-  document.getElementById('studyMin').value=d.study||""; document.getElementById('studyShow').innerText=d.study?("Study: "+d.study+" min"):""; document.getElementById('studySubject').value=d.studySubject||"Math"; document.getElementById('studyTopic').value=d.studyTopic||""; document.getElementById('schoolNotes').value=d.schoolNotes||"";
-  document.getElementById('mood').value=d.mood||"Happy 😊"; document.getElementById('energy').value=d.energy||"5"; document.getElementById('energyShow').innerText=d.energy||"5"; document.getElementById('confidence').value=d.confidence||"5"; document.getElementById('confShow').innerText=d.confidence||"5";
-  document.getElementById('journal').value=d.journal||""; document.getElementById('grat1').value=d.grat1||""; document.getElementById('grat2').value=d.grat2||""; document.getElementById('grat3').value=d.grat3||"";
-  document.getElementById('goal1').value=d.goal1||""; document.getElementById('goal2').value=d.goal2||""; document.getElementById('goal3').value=d.goal3||""; document.getElementById('tomorrowPlan').value=d.tomorrowPlan||"";
-  document.getElementById('food').value=d.food||"Not Tracked"; document.getElementById('meals').value=d.meals||""; document.getElementById('savingGoal').value=d.savingGoal||""; document.getElementById('pocketMoney').value=d.pocketMoney||""; document.getElementById('screenTime').value=d.screenTime||""; document.getElementById('socialTime').value=d.socialTime||""; document.getElementById('myRule').value=d.myRule||"";
+  document.getElementById('quranCheck').checked=d.quran||false; document.getElementById('sleep').value=d.sleep||"";
+  document.getElementById('workout').value=d.workout||"No Workout"; document.getElementById('workoutMin').value=d.workoutMin||""; document.getElementById('weight').value=d.weight||"";
+  document.getElementById('studyMin').value=d.study||""; document.getElementById('studyShow').innerText=d.study?("Study: "+d.study+" min"):""; document.getElementById('studySubject').value=d.studySubject||"Math"; document.getElementById('studyTopic').value=d.studyTopic||"";
+  document.getElementById('mood').value=d.mood||"Happy 😊"; document.getElementById('energy').value=d.energy||"5"; document.getElementById('energyShow').innerText=d.energy||"5";
+  document.getElementById('journal').value=d.journal||""; document.getElementById('grat1').value=d.grat1||"";
+  document.getElementById('goal1').value=d.goal1||""; document.getElementById('goal2').value=d.goal2||""; document.getElementById('goal3').value=d.goal3||"";
+  document.getElementById('food').value=d.food||"Not Tracked"; document.getElementById('savingGoal').value=d.savingGoal||""; document.getElementById('pocketMoney').value=d.pocketMoney||""; document.getElementById('screenTime').value=d.screenTime||""; document.getElementById('socialTime').value=d.socialTime||"";
   document.getElementById('examName').value=d.examName||""; document.getElementById('examDate').value=d.examDate||""; updateExam();
-  document.getElementById('ttMon').value=d.ttMon||""; document.getElementById('ttTue').value=d.ttTue||""; document.getElementById('ttWed').value=d.ttWed||""; document.getElementById('ttThu').value=d.ttThu||""; document.getElementById('ttFri').value=d.ttFri||""; document.getElementById('ttSat').value=d.ttSat||""; document.getElementById('ttSun').value=d.ttSun||"";
   document.getElementById('focusSessions').innerText=d.focusSessions||0;
   let expDiv=document.getElementById('expenseList'); expDiv.innerHTML=""; let totalExp=0; (d.expense||[]).forEach((e,i)=>{ totalExp+=e.amt; expDiv.innerHTML+=`<div class="pill">${e.for} - ${e.amt} <button class="small" onclick="deleteExpense(${i})">x</button></div>`; });
-  document.getElementById('totalExpense').innerText=totalExp; document.getElementById('statExpense').innerText=totalExp;
+  document.getElementById('totalExpense').innerText=totalExp;
   let monthExp=0; Object.values(all).forEach(day=>{ monthExp+=(day.expense||[]).reduce((s,e)=>s+e.amt,0); }); document.getElementById('monthExpense').innerText=monthExp;
-  let pocket=parseInt(d.pocketMoney||0), saved=pocket-monthExp; document.getElementById('moneySaved').innerText=saved; document.getElementById('savingProgress').innerText=`Pocket ${pocket} - Spent ${monthExp} = Saved ${saved} | Goal ${d.savingGoal||0}`; document.getElementById('savingFill').style.width=(d.savingGoal?Math.min(saved/d.savingGoal*100,100):0)+"%";
+  let pocket=parseInt(d.pocketMoney||0), saved=pocket-monthExp; document.getElementById('moneySaved').innerText=saved; document.getElementById('savingProgress').innerText=`Pocket ${pocket} - Spent ${monthExp} = Saved ${saved} | Goal ${d.savingGoal||0}`;
   let gh=document.getElementById('goodHabits'); gh.innerHTML=""; Object.keys(d.goodHabits||{}).forEach(h=>{ gh.innerHTML+=`<button style="background:${d.goodHabits[h]?'#22c55e':'#334155'}" onclick="toggleGoodHabit('${h}')">${d.goodHabits[h]?'✅ ':''}${h}</button>`; });
   let bh=document.getElementById('badHabits'); bh.innerHTML=""; Object.keys(d.badHabits||{}).forEach(h=>{ bh.innerHTML+=`<div class="pill"><label><input type="checkbox" ${d.badHabits[h]?'checked':''} onchange="toggleBadHabit('${h}')" style="width:auto"> Avoided: ${h}</label></div>`; });
-  let gymDiv=document.getElementById('gymLogList'); gymDiv.innerHTML=""; (d.gymLog||[]).forEach((g)=>{ gymDiv.innerHTML+=`<div class="pill">${g.ex} - ${g.sets} x ${g.reps} - ${g.weight}kg</div>`; }); document.getElementById('gymTotal').innerText=Object.values(all).reduce((s,day)=>s+(day.gymLog||[]).length,0); document.getElementById('gymWeek').innerText=Object.keys(all).slice(-7).reduce((s,dt)=>s+(all[dt].gymLog||[]).length,0);
+  let gymDiv=document.getElementById('gymLogList'); gymDiv.innerHTML=""; (d.gymLog||[]).forEach((g)=>{ gymDiv.innerHTML+=`<div class="pill">${g.ex} - ${g.sets} x ${g.reps}</div>`; });
+  </script>
+  <script>
+function render2(){
   let frDiv=document.getElementById('friendList'); frDiv.innerHTML=""; let myPts=calcPoints(); let allFriends=[{name:"You (Me)",score:myPts},...(d.friends||[])]; allFriends.sort((a,b)=>b.score-a.score); allFriends.forEach((f,i)=>{ frDiv.innerHTML+=`<div class="pill">${i+1}. ${f.name} - ${f.score} XP ${i===0?'👑':''}</div>`; }); document.getElementById('leaderboardMsg').innerText=allFriends[0]?.name==="You (Me)"?"You are #1! 🔥":"You are #"+(allFriends.findIndex(f=>f.name==="You (Me)")+1);
   let done=d.tasks.filter(t=>t.d).length, total=d.tasks.length, pct=total?Math.round(done/total*100):0;
   document.getElementById('fill').style.width=pct+"%"; document.getElementById('progressText').innerText=pct+"% Complete - "+done+"/"+total+" tasks";
-  document.getElementById('statTask').innerText=done+"/"+total; document.getElementById('statNamaz').innerText=Object.values(d.namaz).filter(Boolean).length+"/5"; document.getElementById('statWater').innerText=d.water; document.getElementById('statStudy').innerText=d.study||0; document.getElementById('statFocus').innerText=d.focusMin||0;
+  document.getElementById('statTask').innerText=done+"/"+total; document.getElementById('statNamaz').innerText=Object.values(d.namaz).filter(Boolean).length+"/5"; document.getElementById('statWater').innerText=d.water; document.getElementById('statFocus').innerText=d.focusMin||0;
   let streak=0; let keys=Object.keys(all).sort().reverse(); for(let k of keys){ if(all[k].tasks.some(t=>t.d)) streak++; else break; } document.getElementById('streak').innerText=streak;
   let pts=calcPoints(); document.getElementById('points').innerText=pts;
   let lvl=1, rank="🥉 Bronze", next="Silver - 150 XP", xpPct=pts/150*100; if(pts>=500){ lvl=5; rank="👑 KING"; next="MAX!"; xpPct=100; } else if(pts>=300){ lvl=4; rank="💎 Diamond"; next="KING - 500 XP"; xpPct=pts/500*100; } else if(pts>=150){ lvl=3; rank="🥇 Gold"; next="Diamond - 300 XP"; xpPct=pts/300*100; } else if(pts>=50){ lvl=2; rank="🥈 Silver"; next="Gold - 150 XP"; xpPct=pts/150*100; }
-  document.getElementById('level').innerText=lvl; document.getElementById('levelText').innerText=["Beginner","Getting Serious","Disciplined","Beast Mode","Legend"][lvl-1]; document.getElementById('rankShow').innerText=rank; document.getElementById('gameRank').innerText=rank; document.getElementById('nextRank').innerText=next; document.getElementById('xpFill').style.width=Math.min(xpPct,100)+"%"; document.getElementById('rankFill').style.width=Math.min(xpPct,100)+"%";
+  document.getElementById('level').innerText=lvl; document.getElementById('levelText').innerText=["Beginner","Getting Serious","Disciplined","Beast Mode","Legend"][lvl-1]; document.getElementById('rankShow') && (document.getElementById('rankShow').innerText=rank); document.getElementById('gameRank').innerText=rank; document.getElementById('nextRank').innerText=next; document.getElementById('rankFill').style.width=Math.min(xpPct,100)+"%";
   document.getElementById('nextReward').innerText=100; document.getElementById('rewards').innerHTML=pts>=100?`<span class="badge">🎁 Reward Unlocked!</span>`:`<span class="pill">Need ${100-pts} more XP</span>`;
   let h=document.getElementById('history'); if(h){ h.innerHTML=""; Object.keys(all).sort().reverse().slice(0,7).forEach(date=>{ let day=all[date]; let c=day.tasks.filter(t=>t.d).length; h.innerHTML+=`<div class="pill">${date} - ${c}/${day.tasks.length} tasks</div><br>`; }); }
   let wr=document.getElementById('weeklyReport'); let wt=0, wd=0; Object.keys(all).sort().reverse().slice(0,7).forEach(date=>{ wt+=all[date].tasks.length; wd+=all[date].tasks.filter(t=>t.d).length; }); if(wr) wr.innerHTML=`<p>Last 7 Days: <b>${wd}/${wt}</b> - <b>${Math.round(wt?wd/wt*100:0)}%</b></p>`;
-  let sc=document.getElementById('streakCalendar'); if(sc){ sc.innerHTML=""; Object.keys(all).sort().slice(-30).forEach(date=>{ let day=all[date]; let done2=day.tasks.filter(t=>t.d).length; let pct2=day.tasks.length?Math.round(done2/day.tasks.length*100):0; let col=pct2>=80?"#22c55e":pct2>=50?"#f59e0b":"#ef4444"; sc.innerHTML+=`<div style="background:${col};padding:8px;border-radius:10px;text-align:center;color:white;font-size:11px"><b>${date.slice(8,10)}</b><br>${pct2}%</div>`; }); document.getElementById('streakInfo').innerText=`Current Streak: ${streak} days`; }
   try{ renderHistory(); }catch(e){}
-  try{ let ai=""; if(pct>=80) ai=`Excellent! ${pct}% done! Beast Mode!`; else if(pct>=50) ai=`Good! ${pct}% done. Do 2 more!`; else if(pct>0) ai=`You started! ${pct}% done. Just 1 more!`; else ai=`Not started yet. Start with water + prayer!`; document.getElementById('aiCoachBox').innerHTML=`<b>🤖 AI Coach:</b><br>${ai}<br><small>Tasks ${done}/${total} | Prayer ${Object.values(d.namaz).filter(Boolean).length}/5 | Study ${d.study||0} min</small>`; }catch(e){}
 }
+// render ko render2 se jodo - original render ko override
+let _oldRender = render;
+render = function(){ _oldRender(); render2(); };
 render(); renderAlarms();
-if(Notification.permission==="granted"){ document.getElementById('alarmStatus').innerText="Status: ON ✅ - Real Alarm Ready!"; document.getElementById('alarmLiveStatus').innerText="⏰ Alarm System: ON ✅ - Checking every 1 sec"; }
-else { document.getElementById('alarmLiveStatus').innerText="⏰ Alarm System: OFF - Click Enable Notification in History tab"; }
+if(Notification.permission==="granted"){ document.getElementById('alarmStatus').innerText="Status: ON ✅ - Real Alarm Ready!"; }
 </script>
 </body>
 </html>
+                                                                                                
