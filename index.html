@@ -1,1 +1,192 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Discipline Life - PRO</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Arial} body{margin:0;background:#fff0f5;padding:12px;padding-bottom:80px;color:#222}
+.top{background:linear-gradient(135deg,#ff5e8a,#d63384);color:#fff;padding:20px;border-radius:22px}
+.top h1{margin:0;font-size:26px} .top p{opacity:.9;margin:5px 0}
+.card{background:#fff;padding:16px;border-radius:20px;margin:12px 0;box-shadow:0 4px 18px rgba(0,0,0,.07)}
+h2{margin:0 0 10px;font-size:19px} h3{margin:12px 0 6px}
+button{background:#d63384;color:#fff;border:0;padding:10px 16px;border-radius:20px;cursor:pointer;margin:3px;font-weight:600}
+button.small{background:#ffe6ef;color:#d63384} button.green{background:#22c55e} button.grey{background:#eee;color:#333}
+input,select,textarea{width:100%;padding:11px;border:1.5px solid #eee;border-radius:12px;margin:6px 0;font-size:15px;background:#fdfdfd}
+.flex{display:flex;gap:8px;flex-wrap:wrap} .pill{background:#ffe6ef;padding:9px 12px;border-radius:20px;font-size:14px;margin:3px;display:inline-block}
+.bar{height:14px;background:#eee;border-radius:20px;overflow:hidden} .fill{height:100%;background:linear-gradient(90deg,#ff5e8a,#d63384);width:0%;transition:.4s}
+li{list-style:none;margin:9px 0;font-size:16px;display:flex;align-items:center;gap:8px} li input{width:22px;height:22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px} .stat{background:#fff0f5;padding:14px;border-radius:16px;text-align:center}
+.stat b{font-size:22px;color:#d63384;display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px;box-shadow:0 -2px 15px rgba(0,0,0,.1);border-radius:20px 20px 0 0}
+.nav span{font-size:12px;text-align:center;cursor:pointer}
+.done{opacity:.5;text-decoration:line-through}
+.timer{font-size:38px;text-align:center;font-weight:800;color:#d63384}
+</style>
+</head>
+<body>
+<div class="top">
+<h1>✨ <span id="userName">My</span> Discipline Life ✨</h1>
+<p id="todayDate"></p>
+<p>🔥 Streak: <b id="streak">0</b> din | 🏆 Points: <b id="points">0</b> | Level: <b id="level">Beginner</b></p>
+<input id="nameInput" placeholder="Apna naam likho...">
+<button onclick="saveName()" class="small" style="background:#fff;color:#d63384">Save Naam</button>
+</div>
+
+<div class="card">
+<h2>📊 Aaj Ki Progress</h2>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<p id="progressText">0%</p>
+<div class="grid">
+<div class="stat"><b id="statTask">0/0</b>Kaam Complete</div>
+<div class="stat"><b id="statNamaz">0/5</b>Namaz</div>
+<div class="stat"><b id="statWater">0</b>Pani Glass</div>
+<div class="stat"><b id="statStudy">0</b>Study Min</div>
+</div>
+</div>
+
+<div class="card">
+<h2>⏰ Daily Routine - Kya KARNA Hai ✅</h2>
+<ul id="todoList"></ul>
+<input id="newTask" placeholder="Naya kaam... e.g. 10 pages book">
+<button onclick="addTask()">+ Add Kaam</button>
+</div>
+
+<div class="card">
+<h2>🕌 Namaz Tracker</h2>
+<div class="flex" id="namaz"></div>
+<h3>📖 Quran / Dua</h3>
+<label><input type="checkbox" id="quranCheck" onchange="saveQuran()" style="width:auto"> Aaj Quran / Dua parhi</label>
+</div>
+
+<div class="card">
+<h2>💧 Pani + 🍎 Diet + 😴 Neend</h2>
+<p>Pani: <b id="waterCount">0</b> / 8 glass</p>
+<button onclick="addWater()">+ 1 Glass</button><button class="small" onclick="resetWater()">Reset</button>
+<p>Junk Food Aaj?</p>
+<select id="junk" onchange="saveExtra()"><option>Nahi Khaya ✅</option><option>Thora Khaya 😐</option><option>Boht Khaya ❌</option></select>
+<p>Neend Kitne Ghante?</p><input type="number" id="sleep" placeholder="e.g. 7" onchange="saveExtra()">
+<p>Workout Kiya?</p><select id="workout" onchange="saveExtra()"><option>Nahi</option><option>Walk 30 min</option><option>Home Workout</option><option>Gym</option></select>
+</div>
+
+<div class="card">
+<h2>📚 Study / Kaam + ⏱️ Timer</h2>
+<div class="timer" id="timerText">25:00</div>
+<div class="flex"><button onclick="startTimer()">▶ Start</button><button class="small" onclick="pauseTimer()">⏸ Pause</button><button class="small" onclick="resetTimer()">Reset</button></div>
+<input type="number" id="studyMin" placeholder="Aaj total kitne minute study ki?">
+<button onclick="saveStudy()">Save Study</button>
+<p id="studyShow"></p>
+</div>
+
+<div class="card">
+<h2>🎯 Aaj Ke 3 Goals</h2>
+<input id="goal1" placeholder="Goal 1" oninput="saveExtra()">
+<input id="goal2" placeholder="Goal 2" oninput="saveExtra()">
+<input id="goal3" placeholder="Goal 3" oninput="saveExtra()">
+</div>
+
+<div class="card">
+<h2>🧠 Mood + 📝 Journal</h2>
+<select id="mood" onchange="saveExtra()"><option>😊 Happy</option><option>😐 Normal</option><option>😔 Sad</option><option>😡 Gussa</option><option>😴 Thaki Hui</option><option>🔥 Motivated</option></select>
+<textarea id="journal" rows="4" placeholder="Aaj kaisa din tha? Kya seekha? Kya galti hui?"></textarea>
+<button onclick="saveJournal()">Save Journal ❤️</button>
+</div>
+
+<div class="card">
+<h2>💰 Paisa Tracker</h2>
+<input type="number" id="spent" placeholder="Aaj kitne paise kharch kiye?" onchange="saveExtra()">
+<input type="number" id="saved" placeholder="Aaj kitne bachaye?" onchange="saveExtra()">
+</div>
+
+<div class="card">
+<h2>❌ Kya NAHI Karna</h2>
+<p>❌ Subha uthte hi TikTok / Reels nahi<br>❌ Raat 12 ke baad jagna nahi<br>❌ Roz junk food nahi<br>❌ Dusron se compare nahi<br>❌ Kaam kal pe nahi chorna<br>❌ Gussa me faisla nahi</p>
+<label><input type="checkbox" id="noPhone" onchange="saveExtra()" style="width:auto"> Aaj maine phone control me rakha ✅</label>
+</div>
+
+<div class="card">
+<h2>📅 Weekly Planner</h2>
+<input id="mon" placeholder="Monday ka plan" oninput="saveExtra()">
+<input id="tue" placeholder="Tuesday ka plan" oninput="saveExtra()">
+<input id="wed" placeholder="Wednesday ka plan" oninput="saveExtra()">
+<input id="thu" placeholder="Thursday ka plan" oninput="saveExtra()">
+<input id="fri" placeholder="Friday ka plan" oninput="saveExtra()">
+<input id="sat" placeholder="Saturday ka plan" oninput="saveExtra()">
+<input id="sun" placeholder="Sunday ka plan" oninput="saveExtra()">
+</div>
+
+<div class="card">
+<h2>📜 History - Pichle 30 Din Ka Record</h2>
+<div id="history"></div>
+<button onclick="exportData()">📤 Record Copy Karo</button>
+<button class="small" onclick="clearAll()">🗑 Sab Delete</button>
+</div>
+
+<div class="nav"><span>🏠<br>Home</span><span>✅<br>Tasks</span><span>📊<br>Progress</span><span>📜<br>History</span></div>
+  <script>
+let today = new Date().toISOString().slice(0,10);
+document.getElementById('todayDate').innerText = "Aaj: " + new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+let all = JSON.parse(localStorage.getItem('DISCIPLINE_PRO_V2') || '{}');
+if(!all[today]) all[today] = {tasks:[{t:"Subha 7 baje uthna",d:false},{t:"Namaz / Dua",d:false},{t:"Pani peena",d:false},{t:"30 min Walk / Workout",d:false},{t:"1 Ghanta Study",d:false},{t:"10 Pages Book",d:false},{t:"Jaldi Sona",d:false}], namaz:{Fajr:false,Zuhr:false,Asr:false,Maghrib:false,Isha:false}, water:0, sleep:"", study:0, mood:"😊 Happy", journal:"", quran:false, junk:"Nahi Khaya ✅", workout:"Nahi", goal1:"",goal2:"",goal3:"", spent:"", saved:"", noPhone:false, mon:"",tue:"",wed:"",thu:"",fri:"",sat:"",sun:""};
+let d = all[today];
+let userName = localStorage.getItem('DISCIPLINE_NAME') || 'My';
+function save(){ localStorage.setItem('DISCIPLINE_PRO_V2', JSON.stringify(all)); render(); }
+function saveName(){ let v=document.getElementById('nameInput').value; if(v){ localStorage.setItem('DISCIPLINE_NAME',v); userName=v; render(); alert("Naam save ho gaya "+v+" ❤️"); } }
+function toggleTask(i){ d.tasks[i].d=!d.tasks[i].d; save(); }
+function delTask(i){ d.tasks.splice(i,1); save(); }
+function addTask(){ let v=document.getElementById('newTask').value; if(!v) return; d.tasks.push({t:v,d:false}); document.getElementById('newTask').value=""; save(); }
+function toggleNamaz(n){ d.namaz[n]=!d.namaz[n]; save(); }
+function addWater(){ d.water++; save(); }
+function resetWater(){ d.water=0; save(); }
+function saveQuran(){ d.quran=document.getElementById('quranCheck').checked; save(); }
+function saveStudy(){ d.study=document.getElementById('studyMin').value; save(); alert("Study save ho gayi!"); }
+function saveJournal(){ d.mood=document.getElementById('mood').value; d.journal=document.getElementById('journal').value; save(); alert("Journal save ho gaya ❤️"); }
+function saveExtra(){
+  d.sleep=document.getElementById('sleep').value;
+  d.junk=document.getElementById('junk').value;
+  d.workout=document.getElementById('workout').value;
+  d.mood=document.getElementById('mood').value;
+  d.journal=document.getElementById('journal').value;
+  d.goal1=document.getElementById('goal1').value; d.goal2=document.getElementById('goal2').value; d.goal3=document.getElementById('goal3').value;
+  d.spent=document.getElementById('spent').value; d.saved=document.getElementById('saved').value;
+  d.noPhone=document.getElementById('noPhone').checked;
+  d.mon=document.getElementById('mon').value; d.tue=document.getElementById('tue').value; d.wed=document.getElementById('wed').value; d.thu=document.getElementById('thu').value; d.fri=document.getElementById('fri').value; d.sat=document.getElementById('sat').value; d.sun=document.getElementById('sun').value;
+  save();
+}
+    let timerInt=null, timerSec=25*60;
+function startTimer(){ if(timerInt) return; timerInt=setInterval(()=>{ timerSec--; if(timerSec<=0){ clearInterval(timerInt); timerInt=null; alert("25 min complete! Shabash 🎉"); timerSec=25*60; } let m=Math.floor(timerSec/60), s=timerSec%60; document.getElementById('timerText').innerText = (m<10?'0'+m:m)+":"+(s<10?'0'+s:s); },1000); }
+function pauseTimer(){ clearInterval(timerInt); timerInt=null; }
+function resetTimer(){ pauseTimer(); timerSec=25*60; document.getElementById('timerText').innerText="25:00"; }
+function exportData(){ navigator.clipboard.writeText(JSON.stringify(all)); alert("Poora record copy ho gaya! Kahi paste karke save kar lo"); }
+function clearAll(){ if(confirm("Pakka sab delete karna hai?")){ localStorage.removeItem('DISCIPLINE_PRO_V2'); location.reload(); } }
+function render(){
+  document.getElementById('userName').innerText = userName;
+  let list=document.getElementById('todoList'); list.innerHTML="";
+  d.tasks.forEach((task,i)=>{ list.innerHTML+=`<li class="${task.d?'done':''}"><input type="checkbox" ${task.d?'checked':''} onchange="toggleTask(${i})"> ${task.t} <button class="small" onclick="delTask(${i})">x</button></li>`; });
+  let nm=document.getElementById('namaz'); nm.innerHTML="";
+  Object.keys(d.namaz).forEach(n=>{ nm.innerHTML+=`<button style="background:${d.namaz[n]?'#22c55e':'#ffe6ef'};color:${d.namaz[n]?'#fff':'#d63384'}" onclick="toggleNamaz('${n}')">${d.namaz[n]?'✅ ':''}${n}</button>`; });
+  document.getElementById('waterCount').innerText=d.water;
+  document.getElementById('quranCheck').checked=d.quran||false;
+  document.getElementById('sleep').value=d.sleep||""; document.getElementById('junk').value=d.junk||"Nahi Khaya ✅"; document.getElementById('workout').value=d.workout||"Nahi";
+  document.getElementById('studyMin').value=d.study||""; document.getElementById('studyShow').innerText=d.study?("Aaj study: "+d.study+" minute"):"";
+  document.getElementById('goal1').value=d.goal1||""; document.getElementById('goal2').value=d.goal2||""; document.getElementById('goal3').value=d.goal3||"";
+  document.getElementById('mood').value=d.mood||"😊 Happy"; document.getElementById('journal').value=d.journal||"";
+  document.getElementById('spent').value=d.spent||""; document.getElementById('saved').value=d.saved||"";
+  document.getElementById('noPhone').checked=d.noPhone||false;
+  document.getElementById('mon').value=d.mon||""; document.getElementById('tue').value=d.tue||""; document.getElementById('wed').value=d.wed||""; document.getElementById('thu').value=d.thu||""; document.getElementById('fri').value=d.fri||""; document.getElementById('sat').value=d.sat||""; document.getElementById('sun').value=d.sun||"";
+  let done=d.tasks.filter(t=>t.d).length, total=d.tasks.length, pct=total?Math.round(done/total*100):0;
+  document.getElementById('fill').style.width=pct+"%"; document.getElementById('progressText').innerText=pct+"% Complete - "+done+"/"+total+" kaam";
+  document.getElementById('statTask').innerText=done+"/"+total; document.getElementById('statNamaz').innerText=Object.values(d.namaz).filter(Boolean).length+"/5"; document.getElementById('statWater').innerText=d.water; document.getElementById('statStudy').innerText=d.study||0;
+  let streak=0; let keys=Object.keys(all).sort().reverse(); for(let k of keys){ if(all[k].tasks.some(t=>t.d)) streak++; else break; }
+  document.getElementById('streak').innerText=streak;
+  let pts=0; Object.values(all).forEach(day=>{ pts+=day.tasks.filter(t=>t.d).length*10 + Object.values(day.namaz).filter(Boolean).length*5 + (day.water||0)*2 + (parseInt(day.study)||0)/10; });
+  pts=Math.round(pts); document.getElementById('points').innerText=pts;
+  document.getElementById('level').innerText= pts<100?"Beginner":pts<500?"Pro":pts<1000?"Queen 👑":"Legend 🔥";
+  let h=document.getElementById('history'); h.innerHTML="";
+  Object.keys(all).sort().reverse().slice(0,30).forEach(date=>{ let day=all[date]; let c=day.tasks.filter(t=>t.d).length; h.innerHTML+=`<div class="pill">${date} - ${c}/${day.tasks.length} kaam - Namaz ${Object.values(day.namaz).filter(Boolean).length}/5 - Pani ${day.water} - Study ${day.study} min - Mood ${day.mood} - Neend ${day.sleep}h</div><br>`; });
+}
+render();
+</script>
+</body>
+</html>
